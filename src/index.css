@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ─── LIGHT THEME (default) ────────────────────────────────────────────── */
+:root {
+  --background: 210 20% 98%;
+  --foreground: 222 47% 11%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --card-border: 220 13% 91%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --popover-border: 220 13% 91%;
+
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 222 47% 11%;
+
+  --muted: 220 14% 96%;
+  --muted-foreground: 215 16% 47%;
+
+  --accent: 220 14% 96%;
+  --accent-foreground: 222 47% 11%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 221 83% 53%;
+
+  --radius: 0.5rem;
+}
+
+/* ─── DARK THEME ────────────────────────────────────────────────────────── */
+.dark {
+  --background: 222 47% 7%;
+  --foreground: 213 31% 91%;
+
+  --card: 222 47% 10%;
+  --card-foreground: 213 31% 91%;
+  --card-border: 222 30% 17%;
+
+  --popover: 222 47% 10%;
+  --popover-foreground: 213 31% 91%;
+  --popover-border: 222 30% 17%;
+
+  --primary: 221 83% 63%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 222 30% 14%;
+  --secondary-foreground: 213 31% 91%;
+
+  --muted: 222 30% 14%;
+  --muted-foreground: 215 20% 55%;
+
+  --accent: 222 30% 14%;
+  --accent-foreground: 213 31% 91%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 222 30% 17%;
+  --input: 222 30% 17%;
+  --ring: 221 83% 63%;
+}
+
+/* ─── BASE LAYER ─────────────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05), transparent 30%),
+      radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.04), transparent 30%);
+    background-attachment: fixed;
+  }
+
+  /* Dot-grid overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-image:
+      radial-gradient(circle, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+    z-index: -1;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold text-foreground tracking-tight;
+  }
+
+  /* Scrollbar — light */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); }
+}
+
+/* ─── DARK MODE OVERRIDES ────────────────────────────────────────────────── */
+html.dark body {
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08), transparent 35%),
+    radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.06), transparent 35%);
+}
+
+html.dark body::before {
+  background-image:
+    radial-gradient(circle, rgba(99, 160, 255, 0.12) 1px, transparent 1px);
+}
+
+/* ─── MARQUEE ANIMATIONS ─────────────────────────────────────────────────── */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 40s linear infinite;
+}
+.animate-marquee-right {
+  animation: marquee-right 40s linear infinite;
+}
+
+.marquee-row:hover .animate-marquee-left,
+.marquee-row:hover .animate-marquee-right {
+  animation-play-state: paused;
+}
+
+/* ─── UTILITY CLASSES ────────────────────────────────────────────────────── */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/60;
+}
+
+.text-gradient-primary {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
+}
+
+/* Card — works in both light and dark via CSS variables */
+.glass-card {
+  @apply bg-card border border-card-border shadow-sm hover:shadow-md transition-shadow;
+}
+
+.scanline-overlay { display: none; }
+.scanline-bar { display: none; }

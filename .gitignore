@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# TypeScript build cache
+tsconfig.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Generated CV PDF (regenerate from script, don't commit binary)
+public/sherif-abdelrady-cv.pdf
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+.idea/
+
+# Replit internals
+.replit-artifact
+.replit
+replit.nix

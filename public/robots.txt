@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://sherif-abdelrady.replit.app/sitemap.xml
+
+# Block common noise paths
+Disallow: /dist/
+Disallow: /node_modules/
+Disallow: /*.json$
