@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://sherif-abdelrady.replit.app/sitemap.xml
+Sitemap: https://sherifabdelrady.github.io/cv-portfolio/sitemap.xml
 
 # Block common noise paths
 Disallow: /dist/
