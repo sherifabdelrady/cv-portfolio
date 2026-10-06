@@ -16,8 +16,8 @@ tsconfig.tsbuildinfo
 *.log
 npm-debug.log*
 
-# Generated CV PDF (regenerate from script, don't commit binary)
-public/sherif-abdelrady-cv.pdf
+# CV PDF — tracked intentionally so GitHub Pages can serve it
+# !public/sherif-abdelrady-cv.pdf
 
 # OS / editor noise
 .DS_Store
