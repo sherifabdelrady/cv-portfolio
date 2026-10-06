@@ -53,8 +53,18 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, 'dist/public'),
     emptyOutDir: true,
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       external: ['@mediapipe/pose', '@tensorflow/tfjs-backend-webgpu'],
+      output: {
+        manualChunks: {
+          'vendor-react':   ['react', 'react-dom'],
+          'vendor-motion':  ['framer-motion'],
+          'vendor-icons':   ['lucide-react'],
+          'vendor-router':  ['wouter'],
+          'vendor-query':   ['@tanstack/react-query'],
+        },
+      },
     },
   },
   server: {
