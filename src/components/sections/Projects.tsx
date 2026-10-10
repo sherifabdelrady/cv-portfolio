@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Activity, Database, Play, Star, Lightbulb, ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -203,6 +203,61 @@ const PROJECTS: Project[] = [
     colorTo: '#FFFBEB',
     architectureNote: 'LSS (Lift-Splat-Shoot) projects camera features to BEV via predicted depth distributions — avoids hard-coded calibration. Late-fusion of LiDAR BEV (PointPillars) + camera BEV improves mAP +9.1% over LiDAR-only.',
   },
+  {
+    id: 'nerfusion',
+    title: 'NeRFusion — 3D Gaussian Splatting',
+    domain: '3D & Depth',
+    tech: ['3D-GS', 'PyTorch', 'CUDA', 'COLMAP', 'Open3D'],
+    description: '3D Gaussian Splatting for real-time novel view synthesis — reconstruct photorealistic 3D scenes from multi-view images and render new viewpoints at 120 FPS. State-of-the-art on Tanks & Temples and Mip-NeRF360.',
+    metrics: 'PSNR 34.1 dB · SSIM 0.97 · 120 FPS rendering · 40s training',
+    dataset: 'Mip-NeRF360 · Tanks & Temples · Deep Blending',
+    useCase: 'Immersive 3D content creation, AR/VR scene capture, digital twins',
+    colorFrom: '#C7D2FE',
+    colorTo: '#EEF2FF',
+    featured: true,
+    architectureNote: '3D Gaussians vs. NeRF MLP: rasterization eliminates ray-marching overhead — 120 FPS vs. ~1 FPS vanilla NeRF. Adaptive density control prunes/clones Gaussians by view-space gradient magnitude.',
+  },
+  {
+    id: 'samflow',
+    title: 'SAMFlow — Zero-Shot Video Segmentation',
+    domain: 'Image Segmentation',
+    tech: ['SAM-2', 'RAFT', 'PyTorch', 'CUDA', 'FastAPI'],
+    description: 'SAM-2 extended with optical flow for temporally consistent zero-shot video object segmentation. Propagates masks across frames with no task-specific fine-tuning required.',
+    metrics: 'J&F 87.3% on DAVIS-2017 · zero-shot · 24 FPS · 15ms/frame',
+    dataset: 'DAVIS-2017 · YouTube-VOS · MOSE (complex occlusion scenes)',
+    useCase: 'Video editing automation, content moderation, sports analytics',
+    colorFrom: '#D1FAE5',
+    colorTo: '#ECFDF5',
+    featured: true,
+    architectureNote: 'SAM-2 memory attention stores per-object embeddings across frames. RAFT flow warps previous mask as spatial prompt — eliminates flickering that single-frame SAM produces on video.',
+  },
+  {
+    id: 'langvision',
+    title: 'LangVision — Visual Question Answering',
+    domain: 'Multimodal AI',
+    tech: ['LLaVA-1.6', 'LLaMA-3', 'CLIP ViT-L', 'LoRA', 'vLLM'],
+    description: 'LLaVA-1.6 multimodal system for visual QA, image captioning, and visual reasoning. LoRA fine-tuned on domain-specific medical and document QA. Served via vLLM for high-throughput production inference.',
+    metrics: 'VQAv2 82.1% · TextVQA 67.4% · POPE 87.2% · 35 tok/s on A100',
+    dataset: 'VQAv2 · TextVQA · GQA · LLaVA-Instruct-150K · custom medical QA',
+    useCase: 'Medical report generation, document intelligence, accessibility tools',
+    colorFrom: '#FEE2E2',
+    colorTo: '#FFF5F5',
+    featured: true,
+    architectureNote: 'LLaVA-1.6 dynamic high-res (672×672) vs. 1.5 fixed CLIP. LoRA r=16 on 50K domain samples: 97% of full fine-tune at 1% compute. vLLM PagedAttention: 3× throughput vs. naive HuggingFace serving.',
+  },
+  {
+    id: 'diffctrl',
+    title: 'DiffCtrl — Controlled Diffusion Generation',
+    domain: 'Generative Vision',
+    tech: ['SDXL', 'ControlNet', 'LoRA', 'Diffusers', 'PyTorch', 'xFormers'],
+    description: 'ControlNet on SDXL for spatially-conditioned image generation. Canny, depth, pose, and segmentation conditioning with domain LoRA fine-tuning on just 1K images per style.',
+    metrics: 'FID 8.2 · CLIP-Score 0.31 · 4s/image on A100 · 94% user preference',
+    dataset: 'LAION-Aesthetics v2 · custom domain datasets (1K images per LoRA)',
+    useCase: 'Product visualization, synthetic training data augmentation, creative AI tools',
+    colorFrom: '#FCE7F3',
+    colorTo: '#FDF4FF',
+    architectureNote: 'Zero-convolution layers preserve SDXL base weights — no text fidelity degradation. xFormers memory-efficient attention: 40% VRAM reduction enabling SDXL on 24GB consumer GPU.',
+  },
 ];
 
 const DOMAINS = ['All', ...Array.from(new Set(PROJECTS.map((p) => p.domain)))];
@@ -395,3 +450,4 @@ export default function Projects({ onDemoClick }: { onDemoClick?: (id: string) =
     </section>
   );
 }
+
