@@ -59,6 +59,11 @@ const ITEMS: PaletteItem[] = [
   { id: 'proj-depthpro',     group: 'Projects', label: 'DepthPro',        sub: 'δ1 93.2% · monocular depth estimation',    icon: Play, action: ({ close, openDemo }) => { openDemo('depthpro');     close(); }, keywords: 'depth estimation dpt midas 3d' },
   { id: 'proj-autoperception',group: 'Projects', label: 'AutoPerception',  sub: 'mAP 0.624 · BEV 3D object detection',     icon: Play, action: ({ close, openDemo }) => { openDemo('autoperception'); close(); }, keywords: 'autonomous lidar bev 3d detection nuscenes' },
 
+  { id: 'proj-nerfusion',  group: 'Projects', label: 'NeRFusion',  sub: 'PSNR 34.1 dB · 120 FPS · 3D Gaussian Splatting', icon: Play, action: ({ close, openDemo }) => { openDemo('nerfusion');  close(); }, keywords: 'nerf gaussian splatting novel view 3d reconstruction' },
+  { id: 'proj-samflow',    group: 'Projects', label: 'SAMFlow',    sub: 'J&F 87.3% · zero-shot video segmentation', icon: Play, action: ({ close, openDemo }) => { openDemo('samflow');    close(); }, keywords: 'sam segment anything video optical flow davis' },
+  { id: 'proj-langvision', group: 'Projects', label: 'LangVision', sub: 'VQAv2 82.1% · LLaVA-1.6 visual QA', icon: Play, action: ({ close, openDemo }) => { openDemo('langvision'); close(); }, keywords: 'llava vqa multimodal visual question answering lora llm' },
+  { id: 'proj-diffctrl',   group: 'Projects', label: 'DiffCtrl',   sub: 'FID 8.2 · ControlNet + SDXL generation', icon: Play, action: ({ close, openDemo }) => { openDemo('diffctrl');   close(); }, keywords: 'controlnet stable diffusion sdxl lora image generation' },
+
   // ── External links
   { id: 'link-github',   group: 'Links', label: 'GitHub',       sub: 'github.com/sherifabdelrady',        icon: Github,   action: ({ close }) => { window.open('https://github.com/sherifabdelrady', '_blank'); close(); }, keywords: 'code repos' },
   { id: 'link-linkedin', group: 'Links', label: 'LinkedIn',     sub: 'linkedin.com/in/sherif-abd-el-rady', icon: Linkedin, action: ({ close }) => { window.open('https://linkedin.com/in/sherif-abd-el-rady', '_blank'); close(); }, keywords: 'profile network' },
