@@ -7,6 +7,7 @@ import Experience from '@/components/sections/Experience';
 import Testimonials from '@/components/sections/Testimonials';
 import Metrics from '@/components/sections/Metrics';
 import Projects from '@/components/sections/Projects';
+import CaseStudies from '@/components/sections/CaseStudies';
 import Services from '@/components/sections/Services';
 import Pipeline from '@/components/sections/Pipeline';
 import CTAStrip from '@/components/sections/CTAStrip';
@@ -83,6 +84,7 @@ export default function Home() {
         <Testimonials />
         <Metrics />
         <Projects onDemoClick={openDemo} />
+        <CaseStudies />
         <Services />
         <Pipeline />
         <CTAStrip />
@@ -159,7 +161,7 @@ export default function Home() {
             <a href="https://github.com/sherifabdelrady" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
             <a href="https://linkedin.com/in/sherif-abd-el-rady" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">LinkedIn</a>
             <a href="mailto:sherifabdelrady@gmail.com" className="hover:text-foreground transition-colors">Email</a>
-            <a href="/sherif-abdelrady-cv.pdf" download className="hover:text-primary transition-colors text-primary/80">CV ↓</a>
+            <a href={`${import.meta.env.BASE_URL ?? '/'}sherif-abdelrady-cv.pdf`} download className="hover:text-primary transition-colors text-primary/80">CV ↓</a>
           </div>
           <p className="text-xs opacity-60">&copy; {new Date().getFullYear()} Sherif Abd El-Rady</p>
         </div>
