@@ -32,15 +32,16 @@ const scrollTo = (id: string) => {
 
 const ITEMS: PaletteItem[] = [
   // ── Navigate
-  { id: 'nav-about',      group: 'Navigate', label: '01. About',       sub: 'Bio & skills',              icon: User,          action: ({ close }) => { scrollTo('about');      close(); }, keywords: 'bio skills stack' },
-  { id: 'nav-experience', group: 'Navigate', label: '02. Experience',  sub: 'Freelance & foundations',   icon: Briefcase,     action: ({ close }) => { scrollTo('experience'); close(); }, keywords: 'work freelance self-taught' },
-  { id: 'nav-proof',      group: 'Navigate', label: '03. Client Proof', sub: 'How I work remotely',     icon: ShieldCheck,   action: ({ close }) => { scrollTo('testimonials'); close(); }, keywords: 'testimonials trust clients remote' },
-  { id: 'nav-impact',     group: 'Navigate', label: '04. Impact',      sub: 'Metrics & results',         icon: BarChart3,     action: ({ close }) => { scrollTo('metrics');    close(); }, keywords: 'metrics fps accuracy' },
-  { id: 'nav-projects',   group: 'Navigate', label: '05. Projects',    sub: '14 CV systems',            icon: FolderOpen,    action: ({ close }) => { scrollTo('projects');   close(); }, keywords: 'mediscan urbansense yolo multimodal depth pose' },
-  { id: 'nav-services',   group: 'Navigate', label: '06. Services',    sub: 'Freelance packages',        icon: Briefcase,     action: ({ close }) => { scrollTo('services');   close(); }, keywords: 'hire freelance packages pricing' },
-  { id: 'nav-pipeline',   group: 'Navigate', label: '07. ML Pipeline', sub: '9-stage end-to-end',        icon: GitBranch,     action: ({ close }) => { scrollTo('pipeline');   close(); }, keywords: 'pipeline data training deploy' },
-  { id: 'nav-stack',      group: 'Navigate', label: '08. Tech Stack',  sub: 'PyTorch · ONNX · Docker',   icon: Cpu,           action: ({ close }) => { scrollTo('skills');     close(); }, keywords: 'pytorch opencv docker triton' },
-  { id: 'nav-contact',    group: 'Navigate', label: '09. Work With Me', sub: 'Get in touch',             icon: MessageSquare, action: ({ close }) => { scrollTo('contact');    close(); }, keywords: 'hire email message' },
+  { id: 'nav-about',      group: 'Navigate', label: '01. About',         sub: 'Bio & skills',             icon: User,          action: ({ close }) => { scrollTo('about');        close(); }, keywords: 'bio skills stack' },
+  { id: 'nav-experience', group: 'Navigate', label: '02. Experience',    sub: 'Freelance & foundations',  icon: Briefcase,     action: ({ close }) => { scrollTo('experience');   close(); }, keywords: 'work freelance self-taught' },
+  { id: 'nav-proof',      group: 'Navigate', label: '03. Client Proof',  sub: 'How I work remotely',      icon: ShieldCheck,   action: ({ close }) => { scrollTo('testimonials'); close(); }, keywords: 'testimonials trust clients remote' },
+  { id: 'nav-impact',     group: 'Navigate', label: '04. Impact',        sub: 'Metrics & results',        icon: BarChart3,     action: ({ close }) => { scrollTo('metrics');      close(); }, keywords: 'metrics fps accuracy' },
+  { id: 'nav-projects',   group: 'Navigate', label: '05. Projects',      sub: '14 CV systems',            icon: FolderOpen,    action: ({ close }) => { scrollTo('projects');     close(); }, keywords: 'mediscan urbansense yolo multimodal depth pose' },
+  { id: 'nav-casestudies',group: 'Navigate', label: '06. Case Studies',  sub: 'Deep-dives: how it was built', icon: Briefcase, action: ({ close }) => { scrollTo('case-studies'); close(); }, keywords: 'case study mediscan inferedge urbansense architecture' },
+  { id: 'nav-services',   group: 'Navigate', label: '07. Services',      sub: 'Freelance packages',       icon: Briefcase,     action: ({ close }) => { scrollTo('services');     close(); }, keywords: 'hire freelance packages pricing' },
+  { id: 'nav-pipeline',   group: 'Navigate', label: '08. ML Pipeline',   sub: '9-stage end-to-end',       icon: GitBranch,     action: ({ close }) => { scrollTo('pipeline');     close(); }, keywords: 'pipeline data training deploy' },
+  { id: 'nav-stack',      group: 'Navigate', label: '09. Tech Stack',    sub: 'PyTorch · ONNX · Docker',  icon: Cpu,           action: ({ close }) => { scrollTo('skills');       close(); }, keywords: 'pytorch opencv docker triton' },
+  { id: 'nav-contact',    group: 'Navigate', label: '10. Work With Me',  sub: 'Get in touch',             icon: MessageSquare, action: ({ close }) => { scrollTo('contact');      close(); }, keywords: 'hire email message' },
 
   // ── Projects with demos
   { id: 'proj-mediscan',    group: 'Projects', label: 'MediScan',     sub: '97.3% acc · medical imaging',         icon: Play, action: ({ close, openDemo }) => { openDemo('mediscan');    close(); }, keywords: 'chest xray pneumonia covid' },
