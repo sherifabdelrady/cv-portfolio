@@ -1,47 +1,49 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Layers, FlaskConical, Radio, Cpu } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { Layers, FlaskConical, Radio, Cpu, TrendingUp, Code2, Zap, Globe } from 'lucide-react';
+
+/* ── Animated counter ─────────────────────────────────────────────────── */
+function Counter({ to, suffix = '', prefix = '' }: { to: number; suffix?: string; prefix?: string }) {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const duration = 1600;
+    const step = 16;
+    const inc = to / (duration / step);
+    const timer = setInterval(() => {
+      start += inc;
+      if (start >= to) { setValue(to); clearInterval(timer); }
+      else { setValue(Math.floor(start)); }
+    }, step);
+    return () => clearInterval(timer);
+  }, [inView, to]);
+
+  return <span ref={ref}>{prefix}{value.toLocaleString()}{suffix}</span>;
+}
+
+const STATS = [
+  { icon: Code2,      label: 'Lines of CV code',        to: 50000, suffix: '+',  color: 'text-primary',     bg: 'bg-primary/10'    },
+  { icon: TrendingUp, label: 'Benchmark improvement',   to: 31,    suffix: '×',  color: 'text-violet-400',  bg: 'bg-violet-400/10' },
+  { icon: Zap,        label: 'Inference speedup (INT8)', to: 8,     suffix: 'ms', color: 'text-amber-400',   bg: 'bg-amber-400/10'  },
+  { icon: Globe,      label: 'Papers annotated',        to: 120,   suffix: '+',  color: 'text-emerald-400', bg: 'bg-emerald-400/10'},
+];
 
 const SKILL_GROUPS = [
-  {
-    label: 'Core Stack',
-    items: ['Python', 'PyTorch', 'OpenCV', 'NumPy', 'CUDA / cuDNN'],
-  },
-  {
-    label: 'Vision Models',
-    items: ['YOLOv8 / YOLO series', 'U-Net · SegFormer', 'CLIP · ViTPose · DPT', 'BEVFusion · PointPillars', 'ArcFace · ESRGAN · SlowFast'],
-  },
-  {
-    label: 'Deployment',
-    items: ['ONNX · TorchScript', 'FastAPI · Docker', 'Triton Inference Server', 'INT8 / FP16 Quantization'],
-  },
-  {
-    label: 'Tooling',
-    items: ['Weights & Biases', 'HuggingFace Hub', 'scikit-learn', 'Git · Linux · Jupyter'],
-  },
+  { label: 'Core Stack',     items: ['Python', 'PyTorch', 'OpenCV', 'NumPy', 'CUDA / cuDNN'] },
+  { label: 'Vision Models',  items: ['YOLOv8 / YOLO series', 'U-Net · SegFormer', 'CLIP · ViTPose · DPT', 'BEVFusion · PointPillars', 'ArcFace · ESRGAN · SlowFast'] },
+  { label: 'Deployment',     items: ['ONNX · TorchScript', 'FastAPI · Docker', 'Triton Inference Server', 'INT8 / FP16 Quantization'] },
+  { label: 'Tooling',        items: ['Weights & Biases', 'HuggingFace Hub', 'scikit-learn', 'Git · Linux · Jupyter'] },
 ];
 
 const DIFFERENTIATORS = [
-  {
-    icon: Layers,
-    title: 'Full-stack ownership',
-    body: 'Dataset curation → architecture → training loop → production API. Not just fine-tuning.',
-  },
-  {
-    icon: FlaskConical,
-    title: 'Ablation-driven decisions',
-    body: 'Every design choice is measured. Focal loss, anchor-free heads, ASPP — picked for reasons, not defaults.',
-  },
-  {
-    icon: Radio,
-    title: 'Production observability',
-    body: 'Latency p99, distribution drift, calibration datasets for quantization — systems that stay correct after launch.',
-  },
-  {
-    icon: Cpu,
-    title: 'Edge-to-cloud deployment',
-    body: 'INT8 ONNX, Triton dynamic batching, 3.1× accuracy-per-latency — optimisation as a first-class concern.',
-  },
+  { icon: Layers,       title: 'Full-stack ownership',       body: 'Dataset curation → architecture → training loop → production API. Not just fine-tuning.' },
+  { icon: FlaskConical, title: 'Ablation-driven decisions',  body: 'Every design choice is measured. Focal loss, anchor-free heads, ASPP — picked for reasons, not defaults.' },
+  { icon: Radio,        title: 'Production observability',   body: 'Latency p99, distribution drift, calibration datasets for quantization — systems that stay correct after launch.' },
+  { icon: Cpu,          title: 'Edge-to-cloud deployment',   body: 'INT8 ONNX, Triton dynamic batching, 3.1× accuracy-per-latency — optimisation as a first-class concern.' },
 ];
 
 const EXPLORING = [
@@ -65,6 +67,31 @@ export default function About() {
           <h2 className="text-4xl md:text-5xl">01. About</h2>
           <div className="h-px bg-border flex-1 mb-3" />
         </motion.div>
+
+        {/* ── Animated stat counters ─────────────────────────────────── */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+          {STATS.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="glass-card rounded-xl p-5 flex flex-col gap-3 hover:border-primary/30 transition-all group"
+              >
+                <div className={`w-10 h-10 rounded-xl ${s.bg} flex items-center justify-center`}>
+                  <Icon className={`w-5 h-5 ${s.color}`} />
+                </div>
+                <div className={`text-3xl font-bold font-mono ${s.color}`}>
+                  <Counter to={s.to} suffix={s.suffix} />
+                </div>
+                <p className="text-xs text-muted-foreground font-mono leading-tight">{s.label}</p>
+              </motion.div>
+            );
+          })}
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Left — bio */}
@@ -99,7 +126,7 @@ export default function About() {
               <span className="text-primary font-mono text-base bg-primary/8 px-1.5 py-0.5 rounded">freelance projects</span>
               {' and '}
               <span className="text-primary font-mono text-base bg-primary/8 px-1.5 py-0.5 rounded">remote full-time roles</span>
-              {' '}where computer vision, deep learning, and production AI engineering are first-class concerns — not afterthoughts. Remote only from home.
+              {' '}where computer vision, deep learning, and production AI engineering are first-class concerns — not afterthoughts.
             </p>
 
             {/* Differentiators */}
@@ -113,9 +140,9 @@ export default function About() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.08 }}
-                    className="flex items-start gap-3"
+                    className="flex items-start gap-3 group"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-primary/20 transition-colors">
                       <Icon className="w-4 h-4 text-primary" />
                     </div>
                     <div>
@@ -142,7 +169,7 @@ export default function About() {
                 {EXPLORING.map((item) => (
                   <span
                     key={item}
-                    className="font-mono text-xs px-3 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/8 text-amber-600 dark:text-amber-400"
+                    className="font-mono text-xs px-3 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/8 text-amber-600 dark:text-amber-400 hover:border-amber-500/60 transition-colors cursor-default"
                   >
                     {item}
                   </span>
@@ -158,6 +185,9 @@ export default function About() {
             viewport={{ once: true, margin: '-100px' }}
             className="glass-card p-8 rounded-xl relative overflow-hidden"
           >
+            {/* Gradient accent */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
+
             <div className="absolute top-4 right-4 font-mono text-[10px] text-muted-foreground/60 uppercase tracking-widest">
               tech stack
             </div>
@@ -171,8 +201,8 @@ export default function About() {
                   </h4>
                   <ul className="space-y-2">
                     {group.items.map((item) => (
-                      <li key={item} className="font-mono text-sm text-foreground flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0 mt-[5px]" />
+                      <li key={item} className="font-mono text-sm text-foreground flex items-start gap-2 group/item">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0 mt-[5px] group-hover/item:bg-violet-400 transition-colors" />
                         {item}
                       </li>
                     ))}
@@ -186,7 +216,7 @@ export default function About() {
               <div className="grid grid-cols-2 gap-6 font-mono text-sm">
                 <div>
                   <h4 className="text-foreground mb-1 font-sans font-semibold text-sm">What I build</h4>
-                  <p className="text-primary font-medium text-sm">Custom CV & AI Systems</p>
+                  <p className="text-primary font-medium text-sm">Custom CV &amp; AI Systems</p>
                   <p className="text-xs text-muted-foreground">Data → Model → Production</p>
                   <p className="text-xs text-muted-foreground opacity-80">Ablation-driven decisions</p>
                 </div>
@@ -196,6 +226,15 @@ export default function About() {
                   <p className="text-xs text-muted-foreground">Project-based or full-time</p>
                   <p className="text-xs text-muted-foreground opacity-80">Remote only · from home</p>
                 </div>
+              </div>
+
+              {/* Availability pulse */}
+              <div className="mt-5 flex items-center gap-3 p-3 rounded-lg bg-emerald-500/8 border border-emerald-500/20">
+                <span className="relative flex w-2 h-2 flex-shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                </span>
+                <span className="font-mono text-xs text-emerald-400 font-semibold">Open to work — available now</span>
               </div>
             </div>
           </motion.div>

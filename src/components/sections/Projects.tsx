@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Activity, Database, Play, Star, Lightbulb, ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -397,6 +397,9 @@ export default function Projects({ onDemoClick }: { onDemoClick?: (id: string) =
       ? PROJECTS
       : PROJECTS.filter((p) => p.domain === activeFilter);
 
+  const domainCount = (domain: string) =>
+    domain === 'All' ? PROJECTS.length : PROJECTS.filter((p) => p.domain === domain).length;
+
   return (
     <section id="projects" className="py-24 relative z-10">
       <div className="max-w-7xl mx-auto px-6">
@@ -404,10 +407,13 @@ export default function Projects({ onDemoClick }: { onDemoClick?: (id: string) =
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
-          className="mb-6 flex items-end gap-4"
+          className="mb-4 flex items-end gap-4"
         >
           <h2 className="text-4xl md:text-5xl">05. Projects</h2>
           <div className="h-px bg-border flex-1 mb-3" />
+          <span className="mb-3 font-mono text-xs text-muted-foreground whitespace-nowrap">
+            {filteredProjects.length} / {PROJECTS.length} shown
+          </span>
         </motion.div>
 
         <motion.p
@@ -415,28 +421,41 @@ export default function Projects({ onDemoClick }: { onDemoClick?: (id: string) =
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.15 }}
-          className="text-muted-foreground font-mono text-sm mb-10"
+          className="text-muted-foreground font-mono text-sm mb-8"
         >
           Click <span className="text-amber-500">Key Decision</span> on any card to see the architectural reasoning behind it.
         </motion.p>
 
-        {/* Filter tabs */}
-        <div className="mb-12 flex flex-wrap gap-2 font-mono text-sm">
+        {/* Filter tabs with count badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="mb-12 flex flex-wrap gap-2 font-mono text-sm"
+        >
           {DOMAINS.map((domain) => (
             <button
               key={domain}
               type="button"
               onClick={() => setActiveFilter(domain)}
-              className={`px-4 py-2 border rounded-full transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 border rounded-full transition-all text-xs ${
                 activeFilter === domain
-                  ? 'border-primary bg-primary/10 text-primary shadow-sm'
-                  : 'border-border text-muted-foreground hover:border-primary/50 hover:text-foreground bg-background'
+                  ? 'border-primary bg-primary/10 text-primary shadow-[0_0_12px_rgba(99,102,241,0.2)]'
+                  : 'border-border text-muted-foreground hover:border-primary/40 hover:text-foreground bg-background'
               }`}
             >
               {domain}
+              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                activeFilter === domain
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-secondary text-muted-foreground'
+              }`}>
+                {domainCount(domain)}
+              </span>
             </button>
           ))}
-        </div>
+        </motion.div>
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

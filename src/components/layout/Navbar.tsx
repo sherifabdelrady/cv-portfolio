@@ -76,6 +76,14 @@ export default function Navbar({ onPaletteOpen }: NavbarProps) {
           <span className="font-mono font-bold text-lg tracking-tight text-foreground group-hover:text-primary transition-colors">
             SA<span className="text-primary">_</span>
           </span>
+          {/* Availability badge */}
+          <span className="hidden sm:flex items-center gap-1.5 ml-1 font-mono text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+            <span className="relative flex w-1.5 h-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
+            </span>
+            Available
+          </span>
         </button>
 
         {/* Desktop Nav */}
