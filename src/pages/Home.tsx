@@ -145,25 +145,111 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <footer className="w-full py-10 border-t border-border mt-12 bg-background/60">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground font-mono">
-          <div className="flex flex-col items-center md:items-start gap-1">
-            <p>
-              <span className="text-foreground font-semibold">Sherif Abd El-Rady</span>
-              {' '}· AI Engineer · Computer Vision &amp; Deep Learning
-            </p>
-            <p className="text-[11px] text-muted-foreground/60 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block animate-pulse" />
-              Available for freelance &amp; remote roles · Responds within 24 hours
-            </p>
+      <footer className="w-full border-t border-border bg-background/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+
+            {/* Brand column */}
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg border border-primary/30 flex items-center justify-center bg-primary/8">
+                  <span className="font-mono font-bold text-sm text-primary">SA</span>
+                </div>
+                <span className="font-mono font-bold text-lg tracking-tight">
+                  Sherif Abd El-Rady
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
+                Computer Vision Engineer specializing in end-to-end AI systems — from dataset curation to production deployment.
+              </p>
+              <div className="flex items-center gap-2 text-xs font-mono">
+                <span className="relative flex w-1.5 h-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
+                </span>
+                <span className="text-emerald-400">Open to freelance &amp; remote roles</span>
+              </div>
+            </div>
+
+            {/* Navigation column */}
+            <div>
+              <p className="font-mono text-[10px] text-muted-foreground/60 uppercase tracking-widest mb-4">Navigate</p>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-2">
+                {[
+                  ['About', '#about'],
+                  ['Experience', '#experience'],
+                  ['Projects', '#projects'],
+                  ['Case Studies', '#case-studies'],
+                  ['Services', '#services'],
+                  ['ML Pipeline', '#pipeline'],
+                  ['Tech Stack', '#skills'],
+                  ['Contact', '#contact'],
+                ].map(([label, href]) => (
+                  <a
+                    key={label}
+                    href={href}
+                    onClick={(e) => { e.preventDefault(); document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' }); }}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors font-mono cursor-pointer"
+                  >
+                    {label}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Contact column */}
+            <div>
+              <p className="font-mono text-[10px] text-muted-foreground/60 uppercase tracking-widest mb-4">Get in Touch</p>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="mailto:sherifabdelrady@gmail.com"
+                  className="text-sm font-mono text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
+                >
+                  <span className="w-1 h-1 rounded-full bg-primary flex-shrink-0" />
+                  sherifabdelrady@gmail.com
+                </a>
+                <a
+                  href="https://github.com/sherifabdelrady"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-mono text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+                >
+                  <span className="w-1 h-1 rounded-full bg-primary flex-shrink-0" />
+                  github.com/sherifabdelrady
+                </a>
+                <a
+                  href="https://linkedin.com/in/sherif-abd-el-rady"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-mono text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+                >
+                  <span className="w-1 h-1 rounded-full bg-primary flex-shrink-0" />
+                  linkedin.com/in/sherif-abd-el-rady
+                </a>
+                <a
+                  href={`${import.meta.env.BASE_URL ?? '/'}sherif-abdelrady-cv.pdf`}
+                  download
+                  className="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-secondary/60 text-xs font-mono text-muted-foreground hover:border-primary/50 hover:text-primary hover:bg-primary/5 transition-all w-fit"
+                >
+                  ↓ Download CV
+                </a>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-6">
-            <a href="https://github.com/sherifabdelrady" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
-            <a href="https://linkedin.com/in/sherif-abd-el-rady" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">LinkedIn</a>
-            <a href="mailto:sherifabdelrady@gmail.com" className="hover:text-foreground transition-colors">Email</a>
-            <a href={`${import.meta.env.BASE_URL ?? '/'}sherif-abdelrady-cv.pdf`} download className="hover:text-primary transition-colors text-primary/80">CV ↓</a>
+
+          {/* Bottom bar */}
+          <div className="pt-6 border-t border-border flex flex-col md:flex-row items-center justify-between gap-3">
+            <p className="text-xs text-muted-foreground/60 font-mono">
+              © {new Date().getFullYear()} Sherif Abd El-Rady · Computer Vision &amp; Deep Learning
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {['PyTorch', 'OpenCV', 'ONNX', 'FastAPI', 'Docker', 'CUDA'].map((t) => (
+                <span key={t} className="text-[10px] font-mono px-2 py-0.5 rounded border border-border bg-secondary/40 text-muted-foreground/70">
+                  {t}
+                </span>
+              ))}
+            </div>
           </div>
-          <p className="text-xs opacity-60">&copy; {new Date().getFullYear()} Sherif Abd El-Rady</p>
         </div>
       </footer>
     </div>
