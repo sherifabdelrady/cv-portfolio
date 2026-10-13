@@ -199,7 +199,7 @@ export default function About() {
                 <div className="w-16 h-16 rounded-2xl overflow-hidden p-[2px] bg-gradient-to-br from-primary via-violet-500 to-cyan-500 shadow-[0_0_20px_rgba(99,102,241,0.3)]">
                   <div className="w-full h-full rounded-[14px] overflow-hidden">
                     <img
-                      src={`${import.meta.env.BASE_URL ?? '/'}sherif-photo.jpg`}
+                      src={`${import.meta.env.BASE_URL}sherif-photo.jpg`}
                       alt="Sherif Abd El-Rady"
                       className="w-full h-full object-cover object-top"
                       loading="lazy"

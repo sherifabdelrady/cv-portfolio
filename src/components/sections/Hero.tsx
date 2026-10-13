@@ -385,7 +385,7 @@ export default function Hero() {
               {/* Inner white border + photo */}
               <div className="w-full h-full rounded-full overflow-hidden border-4 border-background">
                 <img
-                  src={`${import.meta.env.BASE_URL ?? '/'}sherif-photo.jpg`}
+                  src={`${import.meta.env.BASE_URL}sherif-photo.jpg`}
                   alt="Sherif Abd El-Rady — Computer Vision Engineer"
                   className="w-full h-full object-cover object-top"
                   loading="eager"
