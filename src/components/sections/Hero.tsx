@@ -104,6 +104,9 @@ const TITLES = [
   'ML Systems Builder',
   'Edge Inference Specialist',
   'Multimodal AI Engineer',
+  'Production AI Deployer',
+  '3D Vision Researcher',
+  'Neural Network Optimizer',
 ];
 
 function TypingTitle() {

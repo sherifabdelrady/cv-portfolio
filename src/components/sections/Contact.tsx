@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Github, Linkedin, Send, CheckCircle, Loader2, AlertCircle } from 'lucide-react';
+import { Mail, Github, Linkedin, Send, CheckCircle, Loader2, AlertCircle, Copy, Clock, MapPin, Zap } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -44,6 +44,121 @@ function validate(data: FormData): FieldErrors {
   if (!EMAIL_RE.test(data.email.trim())) errors.email = 'Enter a valid email address.';
   if (data.message.trim().length < 20) errors.message = 'Message must be at least 20 characters.';
   return errors;
+}
+
+function ContactInfoColumn() {
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = () => {
+    navigator.clipboard.writeText('sherifabdelrady@gmail.com');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      className="space-y-6"
+    >
+      {/* Header */}
+      <div>
+        <h3 className="text-xl text-foreground mb-1 font-semibold">Sherif Abd El-Rady</h3>
+        <p className="text-sm text-muted-foreground font-mono">AI Engineer · Computer Vision &amp; Deep Learning</p>
+      </div>
+
+      {/* Availability card */}
+      <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/8 space-y-3">
+        <div className="flex items-center gap-2">
+          <span className="relative flex w-2 h-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+          </span>
+          <span className="font-mono text-xs text-emerald-400 font-semibold uppercase tracking-wider">Open to work — available now</span>
+        </div>
+        <div className="grid grid-cols-2 gap-2 font-mono text-[11px]">
+          <div className="flex items-center gap-1.5 text-muted-foreground">
+            <Clock className="w-3 h-3 text-emerald-400" />
+            <span>Replies within 24h</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-muted-foreground">
+            <MapPin className="w-3 h-3 text-emerald-400" />
+            <span>Remote only · Egypt (EET)</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-muted-foreground col-span-2">
+            <Zap className="w-3 h-3 text-emerald-400" />
+            <span>Freelance projects · Full-time remote roles</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Contact links */}
+      <div className="space-y-3">
+        {/* Email with copy button */}
+        <div className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-lg border border-border group-hover:border-primary flex items-center justify-center bg-secondary group-hover:bg-primary/8 transition-colors flex-shrink-0">
+            <Mail className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+          </div>
+          <a
+            href="mailto:sherifabdelrady@gmail.com"
+            className="font-mono text-sm text-muted-foreground hover:text-primary transition-colors flex-1 min-w-0 truncate"
+          >
+            sherifabdelrady@gmail.com
+          </a>
+          <button
+            type="button"
+            onClick={copyEmail}
+            aria-label="Copy email"
+            className="w-8 h-8 rounded-lg border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all flex-shrink-0"
+          >
+            <AnimatePresence mode="wait">
+              {copied
+                ? <motion.span key="check" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}><CheckCircle className="w-3.5 h-3.5 text-emerald-400" /></motion.span>
+                : <motion.span key="copy" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}><Copy className="w-3.5 h-3.5" /></motion.span>
+              }
+            </AnimatePresence>
+          </button>
+        </div>
+
+        <a
+          href="https://github.com/sherifabdelrady"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group"
+        >
+          <div className="w-10 h-10 rounded-lg border border-border group-hover:border-foreground flex items-center justify-center bg-secondary group-hover:bg-foreground/5 transition-colors flex-shrink-0">
+            <Github className="w-4 h-4" />
+          </div>
+          <span className="font-mono text-sm">github.com/sherifabdelrady</span>
+        </a>
+
+        <a
+          href="https://linkedin.com/in/sherif-abd-el-rady"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 text-muted-foreground hover:text-[#0A66C2] transition-colors group"
+        >
+          <div className="w-10 h-10 rounded-lg border border-border group-hover:border-[#0A66C2] flex items-center justify-center bg-secondary group-hover:bg-[#0A66C2]/8 transition-colors flex-shrink-0">
+            <Linkedin className="w-4 h-4" />
+          </div>
+          <span className="font-mono text-sm">linkedin.com/in/sherif-abd-el-rady</span>
+        </a>
+      </div>
+
+      {/* What I do best tags */}
+      <div className="pt-4 border-t border-border">
+        <p className="font-mono text-[10px] text-muted-foreground/60 uppercase tracking-widest mb-3">What I do best</p>
+        <div className="flex flex-wrap gap-2">
+          {['Computer Vision', 'Deep Learning', 'AI Systems', 'Edge Deployment', 'Model Optimization', 'Production APIs'].map((tag) => (
+            <span key={tag} className="text-[11px] font-mono px-2.5 py-1 rounded-full border border-border bg-secondary/60 text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors cursor-default">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
 }
 
 export default function Contact() {
@@ -113,62 +228,7 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 glass-card p-8 md:p-12 rounded-2xl">
           {/* Contact info */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            <div>
-              <h3 className="text-xl text-foreground mb-2 font-semibold">Sherif Abd El-Rady</h3>
-              <p className="text-sm text-muted-foreground font-mono">AI Engineer · Computer Vision &amp; Deep Learning</p>
-            </div>
-
-            <div className="space-y-4">
-              <a
-                href="mailto:sherifabdelrady@gmail.com"
-                className="flex items-center gap-4 text-muted-foreground hover:text-primary transition-colors group"
-              >
-                <div className="w-10 h-10 rounded-lg border border-border group-hover:border-primary flex items-center justify-center bg-secondary group-hover:bg-primary/8 transition-colors">
-                  <Mail className="w-4 h-4" />
-                </div>
-                <span className="font-mono text-sm">sherifabdelrady@gmail.com</span>
-              </a>
-              <a
-                href="https://github.com/sherifabdelrady"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors group"
-              >
-                <div className="w-10 h-10 rounded-lg border border-border group-hover:border-foreground flex items-center justify-center bg-secondary group-hover:bg-foreground/5 transition-colors">
-                  <Github className="w-4 h-4" />
-                </div>
-                <span className="font-mono text-sm">github.com/sherifabdelrady</span>
-              </a>
-              <a
-                href="https://linkedin.com/in/sherif-abd-el-rady"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 text-muted-foreground hover:text-[#0A66C2] transition-colors group"
-              >
-                <div className="w-10 h-10 rounded-lg border border-border group-hover:border-[#0A66C2] flex items-center justify-center bg-secondary group-hover:bg-[#0A66C2]/8 transition-colors">
-                  <Linkedin className="w-4 h-4" />
-                </div>
-                <span className="font-mono text-sm">linkedin.com/in/sherif-abd-el-rady</span>
-              </a>
-            </div>
-
-            <div className="pt-4 border-t border-border space-y-3">
-              <p className="text-xs font-mono text-muted-foreground">
-                Open to freelance projects, remote full-time roles, and research collaborations. Remote only from home.
-              </p>
-              <div className="grid grid-cols-3 gap-2 font-mono text-[10px] text-muted-foreground">
-                {['Computer Vision', 'Deep Learning', 'AI Systems'].map((svc) => (
-                  <div key={svc} className="bg-secondary/60 border border-border rounded-lg px-2 py-1.5 text-center">{svc}</div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+          <ContactInfoColumn />
 
           {/* Form / success / error */}
           <AnimatePresence mode="wait">
