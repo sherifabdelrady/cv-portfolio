@@ -363,15 +363,48 @@ export default function Hero() {
         </div>
 
         {/* ── Right column ── */}
-        <div className="relative">
-          {/* Floating metric cards */}
-          <MetricFloat value="97.3%"  label="Medical Acc"     delay={1.0} className="-top-8  -left-8 z-20" />
-          <MetricFloat value="120 FPS" label="3D Rendering"   delay={1.2} className="-top-8  right-4  z-20" />
-          <MetricFloat value="<8ms"   label="P99 Latency"     delay={1.4} className="-bottom-8 -left-4 z-20" />
-          <MetricFloat value="18"     label="Projects"         delay={1.6} className="-bottom-8 right-8 z-20" />
+        <div className="relative flex flex-col items-center gap-6">
 
-          {/* Code preview */}
-          <div className="animate-float">
+          {/* Profile photo with animated gradient ring */}
+          <div className="relative">
+            {/* Soft glow behind photo */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 1 }}
+              className="absolute inset-0 rounded-full bg-primary/30 blur-3xl scale-110 pointer-events-none"
+            />
+
+            {/* Gradient ring frame */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6, duration: 0.8, type: 'spring' }}
+              className="relative w-64 h-64 md:w-72 md:h-72 p-[3px] rounded-full bg-gradient-to-br from-primary via-violet-500 to-cyan-500 shadow-[0_0_60px_rgba(99,102,241,0.4)]"
+            >
+              {/* Inner white border + photo */}
+              <div className="w-full h-full rounded-full overflow-hidden border-4 border-background">
+                <img
+                  src={`${import.meta.env.BASE_URL ?? '/'}sherif-photo.jpg`}
+                  alt="Sherif Abd El-Rady — Computer Vision Engineer"
+                  className="w-full h-full object-cover object-top"
+                  loading="eager"
+                  decoding="async"
+                  width={288}
+                  height={288}
+                />
+              </div>
+            </motion.div>
+
+            {/* Floating metric badges at the four corners */}
+            <MetricFloat value="97.3%"  label="Medical Acc"   delay={1.0} className="-top-4 -left-14 z-20" />
+            <MetricFloat value="120 FPS" label="3D Rendering" delay={1.2} className="-top-4 -right-14 z-20" />
+            <MetricFloat value="<8ms"   label="P99 Latency"   delay={1.4} className="-bottom-4 -left-12 z-20" />
+            <MetricFloat value="18"     label="Projects"       delay={1.6} className="-bottom-4 -right-12 z-20" />
+          </div>
+
+          {/* Code preview — below photo */}
+          <div className="animate-float w-full">
             <CodePreview />
           </div>
         </div>

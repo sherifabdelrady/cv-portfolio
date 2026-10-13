@@ -193,6 +193,34 @@ export default function About() {
             </div>
             <h3 className="font-mono text-lg text-foreground mb-8 font-semibold">Tools &amp; Frameworks</h3>
 
+            {/* ── Profile photo card ── */}
+            <div className="flex items-center gap-4 mb-8 pb-6 border-b border-border">
+              <div className="relative flex-shrink-0">
+                <div className="w-16 h-16 rounded-2xl overflow-hidden p-[2px] bg-gradient-to-br from-primary via-violet-500 to-cyan-500 shadow-[0_0_20px_rgba(99,102,241,0.3)]">
+                  <div className="w-full h-full rounded-[14px] overflow-hidden">
+                    <img
+                      src={`${import.meta.env.BASE_URL ?? '/'}sherif-photo.jpg`}
+                      alt="Sherif Abd El-Rady"
+                      className="w-full h-full object-cover object-top"
+                      loading="lazy"
+                      width={64}
+                      height={64}
+                    />
+                  </div>
+                </div>
+                {/* Availability dot */}
+                <span className="absolute -bottom-1 -right-1 flex w-3.5 h-3.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-400 border-2 border-background" />
+                </span>
+              </div>
+              <div>
+                <p className="font-semibold text-foreground text-sm">Sherif Abd El-Rady</p>
+                <p className="font-mono text-xs text-muted-foreground">Computer Vision Engineer</p>
+                <p className="font-mono text-[11px] text-emerald-400 mt-0.5">Available for remote work</p>
+              </div>
+            </div>
+
             <div className="grid grid-cols-2 gap-8">
               {SKILL_GROUPS.map((group) => (
                 <div key={group.label}>
