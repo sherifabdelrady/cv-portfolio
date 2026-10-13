@@ -125,7 +125,7 @@ export default function Navbar({ onPaletteOpen }: NavbarProps) {
             onClick={() => scrollTo('#contact')}
             className="hidden md:flex px-4 py-2 text-sm font-mono font-medium text-primary-foreground bg-primary border border-primary hover:bg-primary/90 transition-all shadow-[0_2px_12px_rgba(59,130,246,0.25)] rounded-lg"
           >
-            Hire Me
+            Work With Me
           </button>
 
           <button
@@ -182,7 +182,7 @@ export default function Navbar({ onPaletteOpen }: NavbarProps) {
                   onClick={() => scrollTo('#contact')}
                   className="w-full px-4 py-2.5 text-sm font-mono font-medium text-primary-foreground bg-primary rounded-lg"
                 >
-                  Hire Me
+                  Work With Me
                 </button>
               </div>
             </div>

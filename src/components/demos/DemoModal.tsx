@@ -14,22 +14,30 @@ import VisionLangDemo from './VisionLangDemo';
 import PoseForgeDemo from './PoseForgeDemo';
 import DepthProDemo from './DepthProDemo';
 import AutoPerceptionDemo from './AutoPerceptionDemo';
+import NeRFusionDemo from './NeRFusionDemo';
+import SAMFlowDemo from './SAMFlowDemo';
+import LangVisionDemo from './LangVisionDemo';
+import DiffCtrlDemo from './DiffCtrlDemo';
 
 const PROJECTS_META: Record<string, { title: string; domain: string }> = {
-  mediscan:        { title: 'MediScan — Medical Image Classifier',         domain: 'Image Classification'  },
-  urbansense:      { title: 'UrbanSense — Real-time Object Detection',     domain: 'Object Detection'      },
-  segforge:        { title: 'SegForge — Semantic Segmentation Pipeline',   domain: 'Image Segmentation'    },
-  facevault:       { title: 'FaceVault — Face Recognition & Anti-Spoofing',domain: 'Face & Biometrics'     },
-  trackmaster:     { title: 'TrackMaster — Multi-Object Video Tracking',   domain: 'Video CV'              },
-  actionnet:       { title: 'ActionNet — Video Action Recognition',        domain: 'Video CV'              },
-  docuai:          { title: 'DocuAI — OCR & Document Intelligence',        domain: 'OCR & Document AI'     },
-  synthvision:     { title: 'SynthVision — GAN Image Generation',          domain: 'Generative Vision'     },
-  superres:        { title: 'SuperRes — Image Super-Resolution',           domain: 'Generative Vision'     },
-  inferedge:       { title: 'InferEdge — Production Inference System',     domain: 'Production Systems'    },
-  visionlang:      { title: 'VisionLang — Multimodal Visual Search',       domain: 'Multimodal AI'         },
-  poseforge:       { title: 'PoseForge — Real-time Pose & Gesture',        domain: 'Pose & Gesture'        },
-  depthpro:        { title: 'DepthPro — Monocular Depth Estimation',       domain: '3D & Depth'            },
-  autoperception:  { title: 'AutoPerception — BEV 3D Object Detection',    domain: 'Autonomous Systems'    },
+  mediscan:        { title: 'MediScan — Medical Image Classifier',           domain: 'Image Classification'  },
+  urbansense:      { title: 'UrbanSense — Real-time Object Detection',       domain: 'Object Detection'      },
+  segforge:        { title: 'SegForge — Semantic Segmentation Pipeline',     domain: 'Image Segmentation'    },
+  facevault:       { title: 'FaceVault — Face Recognition & Anti-Spoofing',  domain: 'Face & Biometrics'     },
+  trackmaster:     { title: 'TrackMaster — Multi-Object Video Tracking',     domain: 'Video CV'              },
+  actionnet:       { title: 'ActionNet — Video Action Recognition',          domain: 'Video CV'              },
+  docuai:          { title: 'DocuAI — OCR & Document Intelligence',          domain: 'OCR & Document AI'     },
+  synthvision:     { title: 'SynthVision — GAN Image Generation',            domain: 'Generative Vision'     },
+  superres:        { title: 'SuperRes — Image Super-Resolution',             domain: 'Generative Vision'     },
+  inferedge:       { title: 'InferEdge — Production Inference System',       domain: 'Production Systems'    },
+  visionlang:      { title: 'VisionLang — Multimodal Visual Search',         domain: 'Multimodal AI'         },
+  poseforge:       { title: 'PoseForge — Real-time Pose & Gesture',          domain: 'Pose & Gesture'        },
+  depthpro:        { title: 'DepthPro — Monocular Depth Estimation',         domain: '3D & Depth'            },
+  autoperception:  { title: 'AutoPerception — BEV 3D Object Detection',      domain: 'Autonomous Systems'    },
+  nerfusion:       { title: 'NeRFusion — 3D Gaussian Splatting',             domain: '3D & Depth'            },
+  samflow:         { title: 'SAMFlow — Zero-Shot Video Segmentation',        domain: 'Image Segmentation'    },
+  langvision:      { title: 'LangVision — Visual Question Answering',        domain: 'Multimodal AI'         },
+  diffctrl:        { title: 'DiffCtrl — Controlled Diffusion Generation',    domain: 'Generative Vision'     },
 };
 
 export default function DemoModal({ projectId, onClose }: { projectId: string; onClose: () => void }) {
@@ -47,20 +55,24 @@ export default function DemoModal({ projectId, onClose }: { projectId: string; o
 
   const renderDemo = () => {
     switch (projectId) {
-      case 'urbansense':      return <ObjectDetectionDemo variant="detection" />;
-      case 'trackmaster':     return <ObjectDetectionDemo variant="tracking" />;
-      case 'mediscan':        return <ClassificationDemo />;
-      case 'docuai':          return <OCRDemo />;
-      case 'segforge':        return <SegmentationDemo />;
-      case 'facevault':       return <FaceDetectionDemo />;
-      case 'superres':        return <SuperResDemo />;
-      case 'synthvision':     return <GANGalleryDemo />;
-      case 'actionnet':       return <ActionDemo />;
-      case 'inferedge':       return <InferEdgeDemo />;
-      case 'visionlang':      return <VisionLangDemo />;
-      case 'poseforge':       return <PoseForgeDemo />;
-      case 'depthpro':        return <DepthProDemo />;
-      case 'autoperception':  return <AutoPerceptionDemo />;
+      case 'urbansense':     return <ObjectDetectionDemo variant="detection" />;
+      case 'trackmaster':    return <ObjectDetectionDemo variant="tracking" />;
+      case 'mediscan':       return <ClassificationDemo />;
+      case 'docuai':         return <OCRDemo />;
+      case 'segforge':       return <SegmentationDemo />;
+      case 'facevault':      return <FaceDetectionDemo />;
+      case 'superres':       return <SuperResDemo />;
+      case 'synthvision':    return <GANGalleryDemo />;
+      case 'actionnet':      return <ActionDemo />;
+      case 'inferedge':      return <InferEdgeDemo />;
+      case 'visionlang':     return <VisionLangDemo />;
+      case 'poseforge':      return <PoseForgeDemo />;
+      case 'depthpro':       return <DepthProDemo />;
+      case 'autoperception': return <AutoPerceptionDemo />;
+      case 'nerfusion':      return <NeRFusionDemo />;
+      case 'samflow':        return <SAMFlowDemo />;
+      case 'langvision':     return <LangVisionDemo />;
+      case 'diffctrl':       return <DiffCtrlDemo />;
       default:
         return (
           <div className="p-8 text-center text-muted-foreground font-mono">
