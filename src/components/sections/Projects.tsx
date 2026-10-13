@@ -409,7 +409,7 @@ export default function Projects({ onDemoClick }: { onDemoClick?: (id: string) =
           viewport={{ once: true, margin: '-100px' }}
           className="mb-4 flex items-end gap-4"
         >
-          <h2 className="text-4xl md:text-5xl">05. Projects</h2>
+          <h2 className="text-4xl md:text-5xl">Projects</h2>
           <div className="h-px bg-border flex-1 mb-3" />
           <span className="mb-3 font-mono text-xs text-muted-foreground whitespace-nowrap">
             {filteredProjects.length} / {PROJECTS.length} shown

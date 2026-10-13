@@ -231,7 +231,7 @@ export default function CaseStudies() {
           viewport={{ once: true, margin: '-100px' }}
           className="mb-6 flex items-end gap-4"
         >
-          <h2 className="text-4xl md:text-5xl">06. Case Studies</h2>
+          <h2 className="text-4xl md:text-5xl">Case Studies</h2>
           <div className="h-px bg-border flex-1 mb-3" />
         </motion.div>
 

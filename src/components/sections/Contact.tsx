@@ -103,7 +103,7 @@ export default function Contact() {
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-16"
         >
-          <div className="font-mono text-primary text-sm mb-4 uppercase tracking-widest">09. Work With Me</div>
+          <div className="font-mono text-primary text-sm mb-4 uppercase tracking-widest">Work With Me</div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl mb-6">Work With Me</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
             Whether you have a computer vision problem to solve, an AI project to build,

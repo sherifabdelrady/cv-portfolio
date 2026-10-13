@@ -4,16 +4,16 @@ import { Menu, X, Code2, Sun, Moon, Search } from 'lucide-react';
 import { useTheme } from '@/lib/theme';
 
 const NAV_LINKS = [
-  { name: '01. About',        href: '#about',         id: 'about' },
-  { name: '02. Experience',   href: '#experience',    id: 'experience' },
-  { name: '03. Proof',        href: '#testimonials',  id: 'testimonials' },
-  { name: '04. Impact',       href: '#metrics',       id: 'metrics' },
-  { name: '05. Projects',     href: '#projects',      id: 'projects' },
-  { name: '06. Case Studies', href: '#case-studies',  id: 'case-studies' },
-  { name: '07. Services',     href: '#services',      id: 'services' },
-  { name: '08. Pipeline',     href: '#pipeline',      id: 'pipeline' },
-  { name: '09. Stack',        href: '#skills',        id: 'skills' },
-  { name: '10. Contact',      href: '#contact',       id: 'contact' },
+  { name: 'About',        href: '#about',         id: 'about' },
+  { name: 'Experience',  href: '#experience',    id: 'experience' },
+  { name: 'Proof',       href: '#testimonials',  id: 'testimonials' },
+  { name: 'Impact',      href: '#metrics',       id: 'metrics' },
+  { name: 'Projects',    href: '#projects',      id: 'projects' },
+  { name: 'Case Studies',href: '#case-studies',  id: 'case-studies' },
+  { name: 'Services',    href: '#services',      id: 'services' },
+  { name: 'Pipeline',    href: '#pipeline',      id: 'pipeline' },
+  { name: 'Stack',       href: '#skills',        id: 'skills' },
+  { name: 'Contact',     href: '#contact',       id: 'contact' },
 ];
 
 interface NavbarProps {

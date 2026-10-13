@@ -122,7 +122,7 @@ export default function Skills() {
           viewport={{ once: true, margin: '-100px' }}
           className="flex items-end gap-4"
         >
-          <h2 className="text-4xl md:text-5xl">08. Tech Stack</h2>
+          <h2 className="text-4xl md:text-5xl">Tech Stack</h2>
           <div className="h-px bg-border flex-1 mb-3" />
         </motion.div>
         <motion.p
