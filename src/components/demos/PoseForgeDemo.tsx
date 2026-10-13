@@ -48,11 +48,10 @@ function drawSkeleton(canvas: HTMLCanvasElement, img: HTMLImageElement, keypoint
   canvas.height = img.naturalHeight;
   ctx.drawImage(img, 0, 0);
 
-  const scale = img.naturalWidth;  // keypoints are normalised 0-1 by MoveNet... actually no, they're in pixels
-  // MoveNet returns pixel coords already scaled to input tensor (192x192 by default)
-  // We need to scale to the displayed image
-  const scaleX = img.naturalWidth  / (img.width  || img.naturalWidth);
-  const scaleY = img.naturalHeight / (img.height || img.naturalHeight);
+  // MoveNet returns pixel coords scaled to the input tensor size
+  // We draw onto the naturalWidth canvas so no re-scaling needed here
+  const _scaleX = img.naturalWidth  / (img.width  || img.naturalWidth);
+  const _scaleY = img.naturalHeight / (img.height || img.naturalHeight);
 
   // Draw edges
   EDGES.forEach(([i, j]) => {

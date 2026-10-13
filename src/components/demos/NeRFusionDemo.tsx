@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Play, RotateCcw, Layers, Zap, Camera } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Play, RotateCcw, Layers, Camera } from 'lucide-react';
+
 
 /* ─── Gaussian point cloud visualiser ──────────────────────────────────── */
 function GaussianCanvas() {
