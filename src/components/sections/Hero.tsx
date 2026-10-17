@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Github, ChevronDown, Linkedin, Sparkles, ArrowRight } from 'lucide-react';
 import sherifPhoto from '@/assets/sherif-photo.jpg';
@@ -313,7 +313,7 @@ export default function Hero() {
               '97.3% Medical Accuracy',
               '120 FPS 3D Rendering',
               '<8ms P99 Inference',
-              '18 Projects',
+              '25 Projects',
             ].map((m) => (
               <span key={m} className="metric-chip">{m}</span>
             ))}
@@ -334,7 +334,7 @@ export default function Hero() {
               View Projects <ArrowRight className="w-4 h-4" />
             </a>
             <a
-              href={`${import.meta.env.BASE_URL ?? '/'}sherif-abdelrady-cv.pdf`}
+              href={`${import.meta.env.BASE_URL}sherif-abdelrady-cv.pdf`}
               download
               className="inline-flex items-center gap-2 px-6 py-3 border border-border bg-secondary/60 rounded-xl font-semibold text-sm hover:border-primary/40 hover:bg-secondary transition-all hover:-translate-y-0.5"
             >
