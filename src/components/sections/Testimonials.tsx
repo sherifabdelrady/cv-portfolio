@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
 import {
   Github, ArrowUpRight, ShieldCheck, Star, GitFork,
@@ -10,7 +10,7 @@ const GITHUB_STATS = [
   { label: 'Public Repos',     value: '18+',  icon: Code2,      color: 'text-primary',   bg: 'bg-primary/8',     border: 'border-primary/20' },
   { label: 'Total Stars',      value: '120+', icon: Star,       color: 'text-amber-500', bg: 'bg-amber-500/8',   border: 'border-amber-500/20' },
   { label: 'Projects Shipped', value: '18',   icon: TrendingUp, color: 'text-emerald-500',bg: 'bg-emerald-500/8',border: 'border-emerald-500/20' },
-  { label: 'CV Domains',       value: '10',   icon: Zap,        color: 'text-violet-500', bg: 'bg-violet-500/8', border: 'border-violet-500/20' },
+  { label: 'CV Domains',       value: '10',   icon: Zap,        color: 'text-blue-500', bg: 'bg-blue-500/8', border: 'border-blue-500/20' },
 ];
 
 /* ── Working style proof points ─────────────────────────────────────────── */
@@ -29,9 +29,9 @@ const PROOF_POINTS = [
     label: 'Working style',
     detail: 'Evidence over guesswork',
     icon: Award,
-    color: 'text-violet-500',
-    bg: 'bg-violet-500/5',
-    border: 'border-violet-500/15',
+    color: 'text-blue-500',
+    bg: 'bg-blue-500/5',
+    border: 'border-blue-500/15',
   },
   {
     quote: 'Async-first remote collaboration: clear progress updates, reproducible experiments, documentation another engineer can actually run.',
@@ -58,7 +58,7 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="py-24 relative overflow-hidden">
       {/* Subtle radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(99,102,241,0.05),transparent)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(59,130,246,0.05),transparent)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Heading */}
@@ -215,3 +215,4 @@ export default function Testimonials() {
     </section>
   );
 }
+

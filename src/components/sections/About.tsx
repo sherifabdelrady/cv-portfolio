@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+﻿import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Layers, FlaskConical, Radio, Cpu, TrendingUp, Code2, Zap, Globe } from 'lucide-react';
+import sherifPhoto from '@/assets/sherif-photo.jpg';
 
 /* ── Animated counter ─────────────────────────────────────────────────── */
 function Counter({ to, suffix = '', prefix = '' }: { to: number; suffix?: string; prefix?: string }) {
@@ -27,7 +28,7 @@ function Counter({ to, suffix = '', prefix = '' }: { to: number; suffix?: string
 
 const STATS = [
   { icon: Code2,      label: 'Lines of CV code',        to: 50000, suffix: '+',  color: 'text-primary',     bg: 'bg-primary/10'    },
-  { icon: TrendingUp, label: 'Benchmark improvement',   to: 31,    suffix: '×',  color: 'text-violet-400',  bg: 'bg-violet-400/10' },
+  { icon: TrendingUp, label: 'Benchmark improvement',   to: 31,    suffix: '×',  color: 'text-blue-400',  bg: 'bg-blue-400/10' },
   { icon: Zap,        label: 'Inference speedup (INT8)', to: 8,     suffix: 'ms', color: 'text-amber-400',   bg: 'bg-amber-400/10'  },
   { icon: Globe,      label: 'Papers annotated',        to: 120,   suffix: '+',  color: 'text-emerald-400', bg: 'bg-emerald-400/10'},
 ];
@@ -196,10 +197,10 @@ export default function About() {
             {/* ── Profile photo card ── */}
             <div className="flex items-center gap-4 mb-8 pb-6 border-b border-border">
               <div className="relative flex-shrink-0">
-                <div className="w-16 h-16 rounded-2xl overflow-hidden p-[2px] bg-gradient-to-br from-primary via-violet-500 to-cyan-500 shadow-[0_0_20px_rgba(99,102,241,0.3)]">
+                <div className="w-16 h-16 rounded-2xl overflow-hidden p-[2px] bg-gradient-to-br from-primary via-blue-500 to-cyan-500 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
                   <div className="w-full h-full rounded-[14px] overflow-hidden">
                     <img
-                      src={`${import.meta.env.BASE_URL}sherif-photo.jpg`}
+                      src={sherifPhoto}
                       alt="Sherif Abd El-Rady"
                       className="w-full h-full object-cover object-top"
                       loading="lazy"
@@ -230,7 +231,7 @@ export default function About() {
                   <ul className="space-y-2">
                     {group.items.map((item) => (
                       <li key={item} className="font-mono text-sm text-foreground flex items-start gap-2 group/item">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0 mt-[5px] group-hover/item:bg-violet-400 transition-colors" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0 mt-[5px] group-hover/item:bg-blue-400 transition-colors" />
                         {item}
                       </li>
                     ))}
@@ -271,3 +272,5 @@ export default function About() {
     </section>
   );
 }
+
+

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Play, RotateCcw, Layers, Camera } from 'lucide-react';
 
@@ -127,7 +127,7 @@ function GaussianCanvas() {
         <p><span className="text-primary">Architecture:</span> 3D Gaussian Splatting (3D-GS)</p>
         <p><span className="text-amber-400">vs NeRF:</span> Rasterization replaces ray-marching → 120× faster render</p>
         <p><span className="text-emerald-400">Key insight:</span> Adaptive density control — split large Gaussians, prune invisible ones</p>
-        <p><span className="text-violet-400">Result:</span> PSNR 34.1 dB · SSIM 0.97 · 120 FPS on RTX 3090</p>
+        <p><span className="text-blue-400">Result:</span> PSNR 34.1 dB · SSIM 0.97 · 120 FPS on RTX 3090</p>
       </div>
     </div>
   );
@@ -147,3 +147,4 @@ export default function NeRFusionDemo() {
     </div>
   );
 }
+

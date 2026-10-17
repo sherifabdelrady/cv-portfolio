@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Code2, BookOpen, FlaskConical, Layers, ChevronDown, ChevronUp, Terminal, Award, TrendingUp } from 'lucide-react';
 
@@ -36,9 +36,9 @@ const ENGAGEMENTS = [
   {
     domain: 'Document Intelligence',
     icon: BookOpen,
-    accent: 'text-violet-400',
-    border: 'border-violet-500/20',
-    bg: 'bg-violet-500/8',
+    accent: 'text-blue-400',
+    border: 'border-blue-500/20',
+    bg: 'bg-blue-500/8',
     glow: 'shadow-[0_0_20px_rgba(139,92,246,0.08)]',
     description: 'Layout parsing and structured OCR pipelines for Arabic and mixed-script documents.',
     metric: '98.1% char accuracy',
@@ -69,7 +69,7 @@ const FOUNDATIONS = [
   {
     category: 'First-Principles Study',
     icon: BookOpen,
-    color: 'text-violet-400',
+    color: 'text-blue-400',
     items: [
       'Worked through seminal papers: Attention is All You Need, MAE, DINOv2, SAM',
       'Reproduced key results from CVPR / ICCV proceedings in personal research env',
@@ -271,10 +271,10 @@ export default function Experience() {
             </div>
 
             {/* Paper log highlight */}
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-violet-500/8 border border-violet-500/20">
-              <Award className="w-4 h-4 text-violet-400 flex-shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-blue-500/8 border border-blue-500/20">
+              <Award className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-mono text-xs font-semibold text-violet-400 mb-1">120+ Annotated Papers</p>
+                <p className="font-mono text-xs font-semibold text-blue-400 mb-1">120+ Annotated Papers</p>
                 <p className="text-xs text-muted-foreground leading-relaxed">
                   Personal reading log covering CVPR / ICCV / NeurIPS proceedings — every architecture understood before deployment.
                 </p>
@@ -290,3 +290,4 @@ export default function Experience() {
     </section>
   );
 }
+

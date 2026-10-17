@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Database, Tag, Shuffle, BrainCircuit, FlaskConical,
@@ -20,9 +20,9 @@ const STAGES = [
     label: 'Annotation',
     tools: ['LabelImg', 'CVAT', 'Roboflow', 'Weighted sampling for class imbalance'],
     note: 'Cross-validated inter-annotator agreement',
-    color: 'text-violet-500',
-    bg: 'bg-violet-500/10',
-    border: 'border-violet-500/30',
+    color: 'text-blue-500',
+    bg: 'bg-blue-500/10',
+    border: 'border-blue-500/30',
   },
   {
     icon: Shuffle,
@@ -279,3 +279,4 @@ export default function Pipeline() {
     </section>
   );
 }
+

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Activity, Database, Play, Star, Lightbulb, ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -55,8 +55,8 @@ const PROJECTS: Project[] = [
     metrics: 'mIoU 0.843 · pixel accuracy 94.1%',
     dataset: 'Cityscapes (5,000 fine annotations)',
     useCase: 'Autonomous driving scene parsing',
-    colorFrom: '#EDE9FE',
-    colorTo: '#F5F3FF',
+    colorFrom: '#DBEAFE',
+    colorTo: '#EFF6FF',
     architectureNote: 'Hybrid U-Net + ASPP: U-Net skip connections preserve spatial boundaries; ASPP (rates 6/12/18) adds multi-scale context. Outperforms DeepLabV3+ by +3.1% mIoU.',
   },
   {
@@ -120,8 +120,8 @@ const PROJECTS: Project[] = [
     metrics: 'FID 18.4 · IS 7.2 · 256×256 @ 60 FPS',
     dataset: 'CelebA-HQ, FFHQ',
     useCase: 'Synthetic data generation for privacy-preserving ML training',
-    colorFrom: '#FCE7F3',
-    colorTo: '#FDF2F8',
+    colorFrom: '#CFFAFE',
+    colorTo: '#ECFEFF',
     architectureNote: 'Weight demodulation (StyleGAN2) eliminates droplet artifacts from StyleGAN1. Mapping network W-space disentangles style from content — FID 18.4 vs. DCGAN 142.',
   },
   {
@@ -173,8 +173,8 @@ const PROJECTS: Project[] = [
     metrics: 'AP 77.1% on COCO Pose · 30 FPS real-time · <15ms inference',
     dataset: 'COCO Keypoints 2017, custom 12-class gesture dataset (8K clips)',
     useCase: 'AR/VR avatar control, sports biomechanics, physical therapy guidance',
-    colorFrom: '#FAE8FF',
-    colorTo: '#FDF4FF',
+    colorFrom: '#E0F2FE',
+    colorTo: '#F0F9FF',
     architectureNote: 'Top-down two-stage beats bottom-up for multi-person accuracy (+8.3% AP on crowded scenes). ViTPose ViT-B encoder with simple decoder head outperforms HRNet-W48 at 60% of the FLOPs.',
   },
   {
@@ -212,8 +212,8 @@ const PROJECTS: Project[] = [
     metrics: 'PSNR 34.1 dB · SSIM 0.97 · 120 FPS rendering · 40s training',
     dataset: 'Mip-NeRF360 · Tanks & Temples · Deep Blending',
     useCase: 'Immersive 3D content creation, AR/VR scene capture, digital twins',
-    colorFrom: '#C7D2FE',
-    colorTo: '#EEF2FF',
+    colorFrom: '#BFDBFE',
+    colorTo: '#EFF6FF',
     featured: true,
     architectureNote: '3D Gaussians vs. NeRF MLP: rasterization eliminates ray-marching overhead — 120 FPS vs. ~1 FPS vanilla NeRF. Adaptive density control prunes/clones Gaussians by view-space gradient magnitude.',
   },
@@ -254,9 +254,102 @@ const PROJECTS: Project[] = [
     metrics: 'FID 8.2 · CLIP-Score 0.31 · 4s/image on A100 · 94% user preference',
     dataset: 'LAION-Aesthetics v2 · custom domain datasets (1K images per LoRA)',
     useCase: 'Product visualization, synthetic training data augmentation, creative AI tools',
-    colorFrom: '#FCE7F3',
-    colorTo: '#FDF4FF',
+    colorFrom: '#CFFAFE',
+    colorTo: '#F0F9FF',
     architectureNote: 'Zero-convolution layers preserve SDXL base weights — no text fidelity degradation. xFormers memory-efficient attention: 40% VRAM reduction enabling SDXL on 24GB consumer GPU.',
+  },
+
+  // ── NEW: 7 notebook-first projects ────────────────────────────────────────
+  {
+    id: 'calibvision',
+    title: 'CalibVision — Camera Calibration & Dewarping',
+    domain: 'Geometric CV',
+    tech: ['OpenCV', 'Python', 'NumPy', 'Matplotlib', 'Jupyter'],
+    description: 'Reusable OpenCV pipeline for lens distortion correction and perspective rectification. Checkerboard calibration, intrinsic matrix estimation, radial/tangential distortion removal, and four-point planar homography with save/load calibration profiles.',
+    metrics: 'Reprojection error <0.4px · 8-notebook learning path · CPU-only',
+    dataset: 'Custom checkerboard capture + OpenCV sample images',
+    useCase: 'Industrial inspection systems, document scanning, autonomous vehicle camera rigs',
+    colorFrom: '#DBEAFE',
+    colorTo: '#EFF6FF',
+    architectureNote: 'Separated lens distortion correction from perspective rectification — two mathematically distinct transforms often conflated. Zhang\'s method (cv2.calibrateCamera) requires ≥10 checkerboard poses for stable K and D estimates.',
+  },
+  {
+    id: 'defectdetect',
+    title: 'DefectDetect — Industrial Visual Inspection',
+    domain: 'Anomaly Detection',
+    tech: ['PyTorch', 'PatchCore', 'OpenCV', 'scikit-learn', 'FastAPI'],
+    description: 'Anomaly detection system for surface defect identification on industrial products using PatchCore (no anomaly labels needed for training). Image-level AUC and pixel-level localization with configurable thresholds and overlay visualization.',
+    metrics: 'Image AUC 0.987 · Pixel AUC 0.961 · MVTec AD benchmark',
+    dataset: 'MVTec Anomaly Detection Dataset (15 categories)',
+    useCase: 'PCB manufacturing QA, textile inspection, pharmaceutical packaging',
+    colorFrom: '#FEF3C7',
+    colorTo: '#FFFBEB',
+    architectureNote: 'PatchCore builds a coreset of normal patch embeddings (WideResNet-50 layer2+3). At inference, anomaly score = nearest-neighbour distance in patch space — no reconstruction decoder, no anomaly labels needed during training.',
+  },
+  {
+    id: 'dlscratch',
+    title: 'DLFoundations — Deep Learning from Scratch',
+    domain: 'Foundations',
+    tech: ['NumPy', 'PyTorch', 'Matplotlib', 'Jupyter', 'Python'],
+    description: 'A 9-notebook series building neural networks from first principles: tensors → gradients → backprop → optimizers. Manual NumPy implementation validated against PyTorch autograd with finite-difference gradient checks.',
+    metrics: '9 notebooks · gradient error <1e-6 · CPU-only · no pretrained models',
+    dataset: 'MNIST, synthetic toy datasets (CPU-friendly)',
+    useCase: 'Portfolio demonstrating core ML understanding, not just API usage',
+    colorFrom: '#D1FAE5',
+    colorTo: '#ECFDF5',
+    architectureNote: 'Finite-difference gradient verification (δ≈1e-5) on every custom backward pass before comparing with torch.autograd — proves correctness rather than assuming it. Validates that manual backprop matches autograd to <1e-6 relative error.',
+  },
+  {
+    id: 'classifypro',
+    title: 'ClassifyPro — Image Classification Pipeline',
+    domain: 'Image Classification',
+    tech: ['PyTorch', 'EfficientNet-B3', 'Grad-CAM', 'ONNX', 'torchvision'],
+    description: 'Full classification pipeline with rigorous experimental discipline: baseline CNN → custom architecture → transfer learning. Deterministic splits, ablation studies, confusion matrices, Grad-CAM explainability, and ONNX export with latency benchmarking.',
+    metrics: 'Top-1 93.7% on CIFAR-10 · 7-run ablation · <2ms ONNX inference',
+    dataset: 'CIFAR-10 (50K train / 10K test, fixed seed split)',
+    useCase: 'Benchmark pipeline for rapid model evaluation on new image classification tasks',
+    colorFrom: '#E0F2FE',
+    colorTo: '#F0F9FF',
+    architectureNote: 'Layer-wise learning rate decay (backbone 10× lower than head) prevents catastrophic forgetting during fine-tuning. Progressive unfreezing: head→block4→block3 over 3 epochs stabilises training vs. full unfreeze at epoch 1.',
+  },
+  {
+    id: 'segdetect',
+    title: 'SegDetect — Segmentation & Detection Suite',
+    domain: 'Image Segmentation',
+    tech: ['U-Net', 'YOLOv8', 'PyTorch', 'OpenCV', 'torchvision'],
+    description: 'Two-module suite: (A) U-Net semantic segmentation with Dice+BCE loss and IoU/Dice evaluation; (B) YOLOv8 object detection fine-tuning with PR curves, NMS analysis, and false-positive breakdown. Independently evaluated, shared preprocessing.',
+    metrics: 'Seg: mIoU 0.831 · Det: mAP@50 0.887 · 8 seg + 8 det notebooks',
+    dataset: 'Oxford-IIIT Pet (seg) · COCO 2017 mini (det)',
+    useCase: 'Medical lesion segmentation, retail product detection, autonomous perception',
+    colorFrom: '#DBEAFE',
+    colorTo: '#EFF6FF',
+    architectureNote: 'Dice loss dominates imbalanced segmentation (background 80%+ of pixels) while BCE anchors class probabilities. Combined Dice+0.5×BCE empirically more stable than Focal alone on this dataset.',
+  },
+  {
+    id: 'videoanalytics',
+    title: 'VideoAnalytics — Real-Time Tracking Pipeline',
+    domain: 'Video CV',
+    tech: ['YOLOv8', 'ByteTrack', 'OpenCV', 'FastAPI', 'Kalman Filter'],
+    description: 'Modular video analysis pipeline: YOLOv8 detection + ByteTrack association + configurable virtual line/region event logic. FPS and latency profiled per stage. Graceful CPU fallback with frame-drop strategy to maintain real-time throughput.',
+    metrics: 'MOTA 0.834 · 28 FPS CPU · <35ms end-to-end · line-crossing events',
+    dataset: 'MOT17 + custom synthetic video clips (provided)',
+    useCase: 'Retail footfall counting, facility crowd management, sports analytics',
+    colorFrom: '#CCFBF1',
+    colorTo: '#F0FDFA',
+    architectureNote: 'ByteTrack uses all detections (not just high-confidence) for second-round IoU matching — recovers occluded tracks that SORT loses. Adaptive frame-drop: skips detection on frames where optical flow magnitude < threshold, saving 40% CPU.',
+  },
+  {
+    id: 'docuextract',
+    title: 'DocuExtract — Document AI & OCR',
+    domain: 'OCR & Document AI',
+    tech: ['PaddleOCR', 'PyTorch', 'OpenCV', 'FastAPI', 'pdfplumber'],
+    description: 'Full document intelligence pipeline: PDF/image ingestion → preprocessing → OCR → structured JSON extraction → schema validation. Handles multi-page PDFs, rotated text, and handwritten fields. Field-level F1, OCR error rates, and per-page latency benchmarked.',
+    metrics: 'Field F1 0.94 · Word acc 96.8% · 9-notebook path · <400ms/page',
+    dataset: 'FUNSD · SROIE · custom synthetic invoice/ID documents',
+    useCase: 'Invoice automation, medical form digitization, ID verification pipelines',
+    colorFrom: '#FEF9C3',
+    colorTo: '#FEFCE8',
+    architectureNote: 'Deskewing via Hough-line angle correction before OCR reduces character error rate by 31% on scanned documents. CRAFT polygon-level text detection handles rotated and curved text that bounding-box methods miss entirely.',
   },
 ];
 
@@ -441,7 +534,7 @@ export default function Projects({ onDemoClick }: { onDemoClick?: (id: string) =
               onClick={() => setActiveFilter(domain)}
               className={`flex items-center gap-2 px-4 py-2 border rounded-full transition-all text-xs ${
                 activeFilter === domain
-                  ? 'border-primary bg-primary/10 text-primary shadow-[0_0_12px_rgba(99,102,241,0.2)]'
+                  ? 'border-primary bg-primary/10 text-primary shadow-[0_0_12px_rgba(59,130,246,0.2)]'
                   : 'border-border text-muted-foreground hover:border-primary/40 hover:text-foreground bg-background'
               }`}
             >
@@ -469,4 +562,6 @@ export default function Projects({ onDemoClick }: { onDemoClick?: (id: string) =
     </section>
   );
 }
+
+
 

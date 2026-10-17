@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+﻿import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Layers, Eye, Zap, Target, Server } from 'lucide-react';
 
@@ -19,8 +19,8 @@ const METRICS = [
     suffix: '',
     delay: 0.1,
     icon: Eye,
-    color: 'text-violet-400',
-    bg: 'bg-violet-400/10',
+    color: 'text-blue-400',
+    bg: 'bg-blue-400/10',
     description: 'Detection · OCR · GAN · Depth · NeRF · VQA',
   },
   {
@@ -160,3 +160,4 @@ export default function Metrics() {
     </section>
   );
 }
+

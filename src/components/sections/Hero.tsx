@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+﻿import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Github, ChevronDown, Linkedin, Sparkles, ArrowRight } from 'lucide-react';
+import sherifPhoto from '@/assets/sherif-photo.jpg';
 
 /* ─── Neural network particle canvas ─────────────────────────────────────── */
 function ParticleCanvas() {
@@ -42,8 +43,8 @@ function ParticleCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const dark = isDark();
-      const nodeColor  = dark ? 'rgba(129,140,248,' : 'rgba(99,102,241,';
-      const edgeColor  = dark ? 'rgba(129,140,248,' : 'rgba(99,102,241,';
+      const nodeColor  = dark ? 'rgba(96,165,250,' : 'rgba(59,130,246,';
+      const edgeColor  = dark ? 'rgba(96,165,250,' : 'rgba(59,130,246,';
 
       // Update & draw nodes
       for (const n of nodes) {
@@ -176,7 +177,7 @@ const SNIPPET = [
 
 const TOKEN_COLORS: Record<string, string> = {
   comment: 'text-slate-500',
-  kw:      'text-violet-500 dark:text-violet-400 font-semibold',
+  kw:      'text-blue-500 dark:text-blue-400 font-semibold',
   mod:     'text-blue-500 dark:text-blue-400',
   def:     'text-slate-700 dark:text-slate-200',
   str:     'text-emerald-600 dark:text-emerald-400',
@@ -232,7 +233,7 @@ function CodePreview() {
       </div>
 
       {/* Glow overlay */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-violet-500/5" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5" />
     </motion.div>
   );
 }
@@ -252,7 +253,7 @@ export default function Hero() {
 
       {/* Gradient orbs */}
       <div className="hero-orb w-[600px] h-[600px] -top-40 -left-40 bg-indigo-500/20 dark:bg-indigo-600/15" />
-      <div className="hero-orb w-[500px] h-[500px] -bottom-20 -right-20 bg-violet-500/15 dark:bg-violet-600/12" />
+      <div className="hero-orb w-[500px] h-[500px] -bottom-20 -right-20 bg-blue-500/15 dark:bg-blue-600/12" />
       <div className="hero-orb w-[300px] h-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-400/8 dark:bg-blue-500/10" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16 grid lg:grid-cols-2 gap-16 items-center w-full">
@@ -297,7 +298,7 @@ export default function Hero() {
           >
             I build end-to-end computer vision systems — from raw data through model training,
             ONNX optimization, and production deployment.
-            {' '}<span className="text-foreground font-medium">18 production-grade projects</span>,
+            {' '}<span className="text-foreground font-medium">25 production-grade projects</span>,
             spanning medical imaging, 3D reconstruction, multimodal AI, and autonomous perception.
           </motion.p>
 
@@ -380,12 +381,12 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6, duration: 0.8, type: 'spring' }}
-              className="relative w-64 h-64 md:w-72 md:h-72 p-[3px] rounded-full bg-gradient-to-br from-primary via-violet-500 to-cyan-500 shadow-[0_0_60px_rgba(99,102,241,0.4)]"
+              className="relative w-64 h-64 md:w-72 md:h-72 p-[3px] rounded-full bg-gradient-to-br from-primary via-blue-500 to-cyan-500 shadow-[0_0_60px_rgba(59,130,246,0.4)]"
             >
               {/* Inner white border + photo */}
               <div className="w-full h-full rounded-full overflow-hidden border-4 border-background">
                 <img
-                  src={`${import.meta.env.BASE_URL}sherif-photo.jpg`}
+                  src={sherifPhoto}
                   alt="Sherif Abd El-Rady — Computer Vision Engineer"
                   className="w-full h-full object-cover object-center scale-105"
                   loading="eager"
@@ -400,7 +401,7 @@ export default function Hero() {
             <MetricFloat value="97.3%"  label="Medical Acc"   delay={1.0} className="-top-4 -left-14 z-20" />
             <MetricFloat value="120 FPS" label="3D Rendering" delay={1.2} className="-top-4 -right-14 z-20" />
             <MetricFloat value="<8ms"   label="P99 Latency"   delay={1.4} className="-bottom-4 -left-12 z-20" />
-            <MetricFloat value="18"     label="Projects"       delay={1.6} className="-bottom-4 -right-12 z-20" />
+            <MetricFloat value="25" label="Projects"       delay={1.6} className="-bottom-4 -right-12 z-20" />
           </div>
 
           {/* Code preview — below photo */}
@@ -428,3 +429,7 @@ export default function Hero() {
     </section>
   );
 }
+
+
+
+

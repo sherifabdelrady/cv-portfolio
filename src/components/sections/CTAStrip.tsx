@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+﻿import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Mail, Github, Linkedin, Zap, Shield, Clock } from 'lucide-react';
 
@@ -12,8 +12,8 @@ export default function CTAStrip() {
   return (
     <section className="py-20 relative overflow-hidden">
       {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/8 via-violet-500/8 to-primary/8 border-y border-primary/10" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(99,102,241,0.12),transparent)]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/8 via-blue-500/8 to-primary/8 border-y border-primary/10" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(59,130,246,0.12),transparent)]" />
 
       {/* Animated glow orb */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-32 bg-primary/10 blur-3xl rounded-full pointer-events-none" />
@@ -40,7 +40,7 @@ export default function CTAStrip() {
           <div className="max-w-3xl">
             <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
               You've seen the work.{' '}
-              <span className="bg-gradient-to-r from-primary via-violet-400 to-primary bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent">
                 Let's build something real.
               </span>
             </h3>
@@ -64,7 +64,7 @@ export default function CTAStrip() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <a
               href="mailto:sherifabdelrady@gmail.com"
-              className="flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-mono font-bold text-sm rounded-xl hover:bg-primary/90 transition-all shadow-[0_4px_24px_rgba(99,102,241,0.35)] hover:shadow-[0_4px_40px_rgba(99,102,241,0.55)] hover:-translate-y-0.5 group"
+              className="flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground font-mono font-bold text-sm rounded-xl hover:bg-primary/90 transition-all shadow-[0_4px_24px_rgba(59,130,246,0.35)] hover:shadow-[0_4px_40px_rgba(59,130,246,0.55)] hover:-translate-y-0.5 group"
             >
               <Mail className="w-4 h-4" />
               Email Me
@@ -104,3 +104,5 @@ export default function CTAStrip() {
     </section>
   );
 }
+
+
