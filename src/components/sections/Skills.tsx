@@ -41,6 +41,20 @@ const ROW_TWO = [
   { name: 'Weights & Biases', icon: Network, category: 'Experiment Tracking' },
   { name: 'Jupyter', icon: SiJupyter, category: 'Notebook' },
 ];
+const ROW_THREE = [
+  { name: 'Triton Server', icon: Zap, category: 'Inference' },
+  { name: 'TensorRT', icon: Cpu, category: 'Optimization' },
+  { name: 'Prometheus', icon: Network, category: 'Monitoring' },
+  { name: 'Grafana', icon: Code2, category: 'Observability' },
+  { name: 'CVAT', icon: ScanLine, category: 'Annotation' },
+  { name: 'Roboflow', icon: Eye, category: 'Dataset Ops' },
+  { name: 'Weights & Biases', icon: Network, category: 'Experiment Tracking' },
+  { name: 'DDP Training', icon: Layers, category: 'Distributed ML' },
+  { name: 'INT8 Quant', icon: Cpu, category: 'Quantization' },
+  { name: 'Grad-CAM', icon: BrainCircuit, category: 'Explainability' },
+  { name: 'FAISS', icon: Zap, category: 'Vector Search' },
+  { name: 'Kubernetes', icon: Network, category: 'Orchestration' },
+];
 
 // ── Proficiency tiers ─────────────────────────────────────────────────────────
 const TIERS = [
@@ -132,7 +146,7 @@ export default function Skills() {
           transition={{ delay: 0.2 }}
           className="text-muted-foreground font-mono text-sm mt-4"
         >
-          Hover any row to pause · 24 tools across the full CV pipeline
+          Hover any row to pause · 30+ tools across the full CV pipeline
         </motion.p>
       </div>
 
@@ -146,6 +160,7 @@ export default function Skills() {
       >
         <MarqueeRow items={ROW_ONE} />
         <MarqueeRow items={ROW_TWO} reverse />
+        <MarqueeRow items={ROW_THREE} />
       </motion.div>
 
       {/* Proficiency tier grid */}
@@ -172,9 +187,14 @@ export default function Skills() {
                 transition={{ delay: ti * 0.1 }}
                 className={`glass-card rounded-xl p-6 border ${tier.bg}`}
               >
-                <div className="flex items-center gap-2.5 mb-1">
-                  <Icon className={`w-4 h-4 ${tier.color}`} />
-                  <h3 className={`font-mono font-bold text-sm ${tier.color}`}>{tier.level}</h3>
+                <div className="flex items-center justify-between gap-2 mb-1">
+                  <div className="flex items-center gap-2.5">
+                    <Icon className={`w-4 h-4 ${tier.color}`} />
+                    <h3 className={`font-mono font-bold text-sm ${tier.color}`}>{tier.level}</h3>
+                  </div>
+                  <span className={`font-mono text-[10px] ${tier.color} bg-current/10 px-2 py-0.5 rounded-full`} style={{backgroundColor: 'transparent'}}>
+                    <span className={`${tier.color} opacity-70`}>{tier.skills.length} skills</span>
+                  </span>
                 </div>
                 <p className="font-mono text-[10px] text-muted-foreground mb-4 uppercase tracking-wider leading-relaxed">
                   {tier.description}

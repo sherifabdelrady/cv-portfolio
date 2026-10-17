@@ -387,7 +387,7 @@ export default function Hero() {
                 <img
                   src={`${import.meta.env.BASE_URL}sherif-photo.jpg`}
                   alt="Sherif Abd El-Rady — Computer Vision Engineer"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-center scale-105"
                   loading="eager"
                   decoding="async"
                   width={288}
