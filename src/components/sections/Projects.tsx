@@ -1,9 +1,10 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Activity, Database, Play, Star, Lightbulb, ChevronDown, ChevronUp } from 'lucide-react';
 
 type Project = {
   id: string;
+  githubSlug?: string;  // override when repo name differs from id
   title: string;
   domain: string;
   tech: string[];
@@ -287,6 +288,34 @@ const PROJECTS: Project[] = [
     architectureNote: 'PatchCore builds a coreset of normal patch embeddings (WideResNet-50 layer2+3). At inference, anomaly score = nearest-neighbour distance in patch space — no reconstruction decoder, no anomaly labels needed during training.',
   },
   {
+    id: 'flowvision',
+    githubSlug: 'cv-optical-flow',
+    title: 'FlowVision — Optical Flow & Motion Estimation',
+    domain: 'Video CV',
+    tech: ['RAFT', 'PyTorch', 'OpenCV', 'NumPy', 'Matplotlib'],
+    description: 'Dense optical flow estimation using RAFT (Recurrent All-Pairs Field Transforms). Computes per-pixel motion vectors between consecutive frames, visualised as HSV flow maps. Applied to motion segmentation, video stabilisation, and action recognition pre-processing.',
+    metrics: 'EPE 1.43px on Sintel Clean · EPE 2.71px on KITTI-15 · CPU-compatible',
+    dataset: 'MPI Sintel · KITTI-2015 · Flying Chairs (synthetic pre-training)',
+    useCase: 'Video stabilisation, action recognition feature extraction, autonomous driving motion analysis',
+    colorFrom: '#CCFBF1',
+    colorTo: '#F0FDFA',
+    architectureNote: 'RAFT iterative refinement (12 GRU steps) outperforms PWCNet cost-volume approach by computing all-pairs 4D correlation across spatial positions — no explicit pyramid warping, more robust to large displacements.',
+  },
+  {
+    id: 'posevision',
+    githubSlug: 'cv-pose-estimation',
+    title: 'PoseVision — Human Pose Estimation',
+    domain: 'Pose & Gesture',
+    tech: ['OpenCV', 'MediaPipe', 'PyTorch', 'NumPy', 'Matplotlib'],
+    description: 'Real-time 2D and 3D human pose estimation pipeline. Detects 17 COCO body keypoints with confidence scores, draws skeleton overlays, and exports per-frame joint angles for downstream biomechanics analysis. Runs at 30 FPS on CPU.',
+    metrics: 'AP 72.4% on COCO val2017 · 30 FPS CPU · <20ms/frame',
+    dataset: 'COCO Keypoints 2017 · custom validation clips',
+    useCase: 'Physical therapy motion analysis, sports coaching feedback, ergonomics monitoring',
+    colorFrom: '#E0F2FE',
+    colorTo: '#F0F9FF',
+    architectureNote: 'Top-down two-stage (detect person → estimate pose) chosen over bottom-up (estimate all joints → group) because top-down AP scales better with person count and allows per-person confidence thresholding.',
+  },
+  {
     id: 'dlscratch',
     title: 'DLFoundations — Deep Learning from Scratch',
     domain: 'Foundations',
@@ -460,7 +489,7 @@ function ProjectCard({
         {/* Footer links */}
         <div className="flex gap-4 border-t border-border pt-4">
           <a
-            href={`https://github.com/sherifabdelrady/${project.id}`}
+            href={`https://github.com/sherifabdelrady/${project.githubSlug ?? project.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-mono flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
