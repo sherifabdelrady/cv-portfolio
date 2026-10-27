@@ -1,435 +1,293 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Download, Github, ChevronDown, Linkedin, Sparkles, ArrowRight } from 'lucide-react';
-import sherifPhoto from '@/assets/sherif-photo.jpg';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { Github, Linkedin, Mail, Download, ChevronDown, Terminal } from 'lucide-react';
 
-/* ─── Neural network particle canvas ─────────────────────────────────────── */
-function ParticleCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animId: number;
-    const isDark = () => document.documentElement.classList.contains('dark');
-
-    const resize = () => {
-      canvas.width  = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    // Nodes
-    const N = Math.min(60, Math.floor(window.innerWidth / 22));
-    interface Node { x: number; y: number; vx: number; vy: number; r: number; pulse: number; }
-    const nodes: Node[] = Array.from({ length: N }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      r: Math.random() * 1.8 + 0.8,
-      pulse: Math.random() * Math.PI * 2,
-    }));
-
-    const CONNECT_DIST = 160;
-    let frame = 0;
-
-    const draw = () => {
-      frame++;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const dark = isDark();
-      const nodeColor  = dark ? 'rgba(96,165,250,' : 'rgba(59,130,246,';
-      const edgeColor  = dark ? 'rgba(96,165,250,' : 'rgba(59,130,246,';
-
-      // Update & draw nodes
-      for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0 || n.x > canvas.width)  n.vx *= -1;
-        if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
-        n.pulse += 0.018;
-
-        const pulse = 0.7 + 0.3 * Math.sin(n.pulse);
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r * pulse, 0, Math.PI * 2);
-        ctx.fillStyle = `${nodeColor}${0.55 * pulse})`;
-        ctx.fill();
-      }
-
-      // Draw edges
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const d  = Math.sqrt(dx * dx + dy * dy);
-          if (d < CONNECT_DIST) {
-            const alpha = (1 - d / CONNECT_DIST) * 0.22;
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = `${edgeColor}${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
-          }
-        }
-      }
-
-      animId = requestAnimationFrame(draw);
-    };
-
-    draw();
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.65 }}
-    />
-  );
-}
-
-/* ─── Typing animation for rotating titles ───────────────────────────────── */
-const TITLES = [
+const TYPED_LINES = [
   'Computer Vision Engineer',
-  'Deep Learning Architect',
-  'ML Systems Builder',
-  'Edge Inference Specialist',
-  'Multimodal AI Engineer',
-  'Production AI Deployer',
-  '3D Vision Researcher',
-  'Neural Network Optimizer',
+  'Deep Learning Researcher',
+  'ML Systems Architect',
+  'Open-Source Builder',
 ];
 
-function TypingTitle() {
-  const [titleIdx, setTitleIdx] = useState(0);
-  const [displayed, setDisplayed] = useState('');
+function useTypingEffect(lines: string[], speed = 60, pause = 2000) {
+  const [lineIdx, setLineIdx] = useState(0);
+  const [text, setText] = useState('');
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    const target = TITLES[titleIdx];
-    let timeout: ReturnType<typeof setTimeout>;
+    const full = lines[lineIdx];
+    let timer: ReturnType<typeof setTimeout>;
 
-    if (!deleting && displayed.length < target.length) {
-      timeout = setTimeout(() => setDisplayed(target.slice(0, displayed.length + 1)), 55);
-    } else if (!deleting && displayed.length === target.length) {
-      timeout = setTimeout(() => setDeleting(true), 2200);
-    } else if (deleting && displayed.length > 0) {
-      timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 28);
-    } else if (deleting && displayed.length === 0) {
+    if (!deleting && text.length < full.length) {
+      timer = setTimeout(() => setText(full.slice(0, text.length + 1)), speed);
+    } else if (!deleting && text.length === full.length) {
+      timer = setTimeout(() => setDeleting(true), pause);
+    } else if (deleting && text.length > 0) {
+      timer = setTimeout(() => setText(text.slice(0, -1)), speed / 2);
+    } else if (deleting && text.length === 0) {
       setDeleting(false);
-      setTitleIdx((i) => (i + 1) % TITLES.length);
+      setLineIdx((i) => (i + 1) % lines.length);
     }
+    return () => clearTimeout(timer);
+  }, [text, deleting, lineIdx, lines, speed, pause]);
 
-    return () => clearTimeout(timeout);
-  }, [displayed, deleting, titleIdx]);
-
-  return (
-    <span className="text-gradient-primary font-heading">
-      {displayed}
-      <span className="animate-pulse text-primary">|</span>
-    </span>
-  );
+  return text;
 }
 
-/* ─── Floating metric card ───────────────────────────────────────────────── */
-function MetricFloat({
-  value, label, delay, className
-}: { value: string; label: string; delay: number; className?: string }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ delay, duration: 0.6, type: 'spring' }}
-      className={`absolute glass-card neon-border rounded-2xl px-4 py-3 flex flex-col items-center gap-0.5 select-none pointer-events-none ${className}`}
-      style={{ animationDelay: `${delay}s` }}
-    >
-      <span className="text-xl font-bold font-mono text-gradient-primary leading-none">{value}</span>
-      <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">{label}</span>
-    </motion.div>
-  );
-}
-
-/* ─── Code snippet ───────────────────────────────────────────────────────── */
-const SNIPPET = [
-  { c: 'comment', t: '# production inference · zero-cost cold start' },
-  { c: 'kw', t: 'from' }, { c: 'mod', t: ' inferedge' }, { c: 'kw', t: ' import' }, { c: 'def', t: ' Engine' },
-  { c: 'blank', t: '' },
-  { c: 'comment', t: '# INT8 · Triton batching · <8ms P99' },
-  { c: 'def', t: 'engine = Engine(' },
-  { c: 'indent', t: '  model' }, { c: 'op', t: '=' }, { c: 'str', t: '"yolov8x-int8"' }, { c: 'def', t: ',' },
-  { c: 'indent', t: '  backend' }, { c: 'op', t: '=' }, { c: 'str', t: '"triton"' }, { c: 'def', t: ',' },
-  { c: 'indent', t: '  device' }, { c: 'op', t: '=' }, { c: 'str', t: '"cuda:0"' },
-  { c: 'def', t: ')' },
-  { c: 'blank', t: '' },
-  { c: 'comment', t: '# → 23 detections · mAP 0.891 · p99 7.2ms' },
-  { c: 'def', t: 'result = engine.infer(frame)' },
+const STATS = [
+  { value: '25+', label: 'Repositories', color: 'text-blue-400'   },
+  { value: '18',  label: 'ML Models',    color: 'text-violet-400' },
+  { value: '8',   label: 'Domains',      color: 'text-emerald-400' },
+  { value: '∞',   label: 'Coffee ☕',    color: 'text-amber-400'  },
 ];
 
-const TOKEN_COLORS: Record<string, string> = {
-  comment: 'text-slate-500',
-  kw:      'text-blue-500 dark:text-blue-400 font-semibold',
-  mod:     'text-blue-500 dark:text-blue-400',
-  def:     'text-slate-700 dark:text-slate-200',
-  str:     'text-emerald-600 dark:text-emerald-400',
-  op:      'text-amber-500',
-  indent:  'text-sky-600 dark:text-sky-400',
-  num:     'text-orange-500',
-  blank:   'h-3 block',
-};
-
-function CodePreview() {
-  // Collapse tokens into rows
-  const rows: Array<Array<{ c: string; t: string }>> = [];
-  let row: Array<{ c: string; t: string }> = [];
-  for (const tok of SNIPPET) {
-    if (tok.c === 'blank') {
-      if (row.length) { rows.push(row); row = []; }
-      rows.push([tok]);
-    } else if (tok.c === 'comment' || tok.c === 'indent') {
-      if (row.length) { rows.push(row); row = []; }
-      row.push(tok);
-    } else {
-      row.push(tok);
-    }
-  }
-  if (row.length) rows.push(row);
-
+function AnimatedStat({ value, label, color, delay }: { value: string; label: string; color: string; delay: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-50px' });
   return (
     <motion.div
-      initial={{ opacity: 0, x: 40 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.7, duration: 0.7, type: 'spring' }}
-      className="relative rounded-2xl overflow-hidden neon-border glass-card hidden lg:block"
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay }}
+      className="flex flex-col items-center gap-1"
     >
-      {/* Title bar */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-secondary/40">
-        <span className="w-3 h-3 rounded-full bg-red-400/80" />
-        <span className="w-3 h-3 rounded-full bg-amber-400/80" />
-        <span className="w-3 h-3 rounded-full bg-emerald-400/80" />
-        <span className="ml-3 text-xs font-mono text-muted-foreground">inference.py — InferEdge</span>
-      </div>
-
-      {/* Code */}
-      <div className="p-5 font-mono text-[13px] leading-relaxed space-y-0.5 bg-background/60">
-        {rows.map((r, i) => (
-          <div key={i} className="flex flex-wrap">
-            {r.map((tok, j) =>
-              tok.c === 'blank'
-                ? <span key={j} className="block h-3 w-full" />
-                : <span key={j} className={TOKEN_COLORS[tok.c] ?? 'text-foreground'}>{tok.t}</span>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Glow overlay */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5" />
+      <span className={`font-heading font-bold text-3xl md:text-4xl ${color} tabular-nums`}>{value}</span>
+      <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">{label}</span>
     </motion.div>
   );
 }
 
-/* ─── Hero ───────────────────────────────────────────────────────────────── */
 export default function Hero() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const typed = useTypingEffect(TYPED_LINES);
+
+  const scrollDown = () => {
+    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden"
-    >
-      {/* Particle background */}
-      {mounted && <ParticleCanvas />}
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
 
-      {/* Gradient orbs */}
-      <div className="hero-orb w-[600px] h-[600px] -top-40 -left-40 bg-indigo-500/20 dark:bg-indigo-600/15" />
-      <div className="hero-orb w-[500px] h-[500px] -bottom-20 -right-20 bg-blue-500/15 dark:bg-blue-600/12" />
-      <div className="hero-orb w-[300px] h-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-400/8 dark:bg-blue-500/10" />
+      {/* Background layers */}
+      <div className="absolute inset-0 bg-grid opacity-40 pointer-events-none" />
+      <div className="absolute inset-0 gradient-hero pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16 grid lg:grid-cols-2 gap-16 items-center w-full">
+      {/* Animated orbs */}
+      <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-blue-500/5 blur-3xl pointer-events-none float-slow" />
+      <div className="absolute bottom-1/4 -right-32 w-80 h-80 rounded-full bg-violet-500/5 blur-3xl pointer-events-none float" />
+      <div className="absolute top-2/3 left-1/3 w-64 h-64 rounded-full bg-emerald-500/4 blur-3xl pointer-events-none float-delay" />
 
-        {/* ── Left column ── */}
-        <div className="flex flex-col gap-8">
+      {/* Scan line */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+        <div className="scan-line" />
+      </div>
 
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-          >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/8 text-primary text-xs font-mono font-semibold tracking-widest uppercase">
-              <Sparkles className="w-3.5 h-3.5" />
-              Open to Remote Freelance &amp; Full-time
-            </span>
-          </motion.div>
+      <div className="max-content relative z-10 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[85vh] py-24">
 
-          {/* Name */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="flex flex-col gap-3"
-          >
-            <h1 className="text-5xl md:text-6xl xl:text-7xl font-heading font-extrabold leading-[1.05] tracking-tight">
-              Sherif<br />
-              <span className="shimmer-text">Abd El-Rady</span>
-            </h1>
-            <div className="text-2xl md:text-3xl font-heading font-medium text-muted-foreground min-h-[40px]">
-              <TypingTitle />
-            </div>
-          </motion.div>
+          {/* LEFT — Text content */}
+          <div className="flex flex-col gap-6 order-2 lg:order-1">
 
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-xl"
-          >
-            I build end-to-end computer vision systems — from raw data through model training,
-            ONNX optimization, and production deployment.
-            {' '}<span className="text-foreground font-medium">25 production-grade projects</span>,
-            spanning medical imaging, 3D reconstruction, multimodal AI, and autonomous perception.
-          </motion.p>
-
-          {/* Quick metrics strip */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="flex flex-wrap gap-2"
-          >
-            {[
-              '97.3% Medical Accuracy',
-              '120 FPS 3D Rendering',
-              '<8ms P99 Inference',
-              '25 Projects',
-            ].map((m) => (
-              <span key={m} className="metric-chip">{m}</span>
-            ))}
-          </motion.div>
-
-          {/* CTA row */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            className="flex flex-wrap gap-3"
-          >
-            <a
-              href="#projects"
-              onClick={(e) => { e.preventDefault(); document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); }}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold text-sm hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5 active:translate-y-0"
-            >
-              View Projects <ArrowRight className="w-4 h-4" />
-            </a>
-            <a
-              href={`${import.meta.env.BASE_URL}sherif-abdelrady-cv.pdf`}
-              download
-              className="inline-flex items-center gap-2 px-6 py-3 border border-border bg-secondary/60 rounded-xl font-semibold text-sm hover:border-primary/40 hover:bg-secondary transition-all hover:-translate-y-0.5"
-            >
-              <Download className="w-4 h-4" /> Download CV
-            </a>
-            <div className="flex items-center gap-2">
-              <a
-                href="https://github.com/sherifabdelrady"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="w-10 h-10 rounded-xl border border-border flex items-center justify-center hover:border-primary/40 hover:text-primary hover:bg-primary/5 transition-all"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-              <a
-                href="https://linkedin.com/in/sherif-abd-el-rady"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="w-10 h-10 rounded-xl border border-border flex items-center justify-center hover:border-primary/40 hover:text-primary hover:bg-primary/5 transition-all"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* ── Right column ── */}
-        <div className="relative flex flex-col items-center gap-6">
-
-          {/* Profile photo with animated gradient ring */}
-          <div className="relative">
-            {/* Soft glow behind photo */}
+            {/* Status badge */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 1 }}
-              className="absolute inset-0 rounded-full bg-primary/30 blur-3xl scale-110 pointer-events-none"
-            />
-
-            {/* Gradient ring frame */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6, duration: 0.8, type: 'spring' }}
-              className="relative w-64 h-64 md:w-72 md:h-72 p-[3px] rounded-full bg-gradient-to-br from-primary via-blue-500 to-cyan-500 shadow-[0_0_60px_rgba(59,130,246,0.4)]"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex items-center gap-2 w-fit"
             >
-              {/* Inner white border + photo */}
-              <div className="w-full h-full rounded-full overflow-hidden border-4 border-background">
-                <img
-                  src={sherifPhoto}
-                  alt="Sherif Abd El-Rady — Computer Vision Engineer"
-                  className="w-full h-full object-cover object-center scale-105"
-                  loading="eager"
-                  decoding="async"
-                  width={288}
-                  height={288}
-                />
+              <div className="relative flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/5">
+                <div className="relative flex w-1.5 h-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
+                </div>
+                <span className="font-mono text-xs text-emerald-400 font-medium">Open to opportunities</span>
               </div>
             </motion.div>
 
-            {/* Floating metric badges at the four corners */}
-            <MetricFloat value="97.3%"  label="Medical Acc"   delay={1.0} className="-top-4 -left-14 z-20" />
-            <MetricFloat value="120 FPS" label="3D Rendering" delay={1.2} className="-top-4 -right-14 z-20" />
-            <MetricFloat value="<8ms"   label="P99 Latency"   delay={1.4} className="-bottom-4 -left-12 z-20" />
-            <MetricFloat value="25" label="Projects"       delay={1.6} className="-bottom-4 -right-12 z-20" />
+            {/* Heading */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h1 className="font-heading font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.0] tracking-tight">
+                <span className="text-foreground">Sherif</span>
+                <br />
+                <span className="gradient-text">Abd El-Rady</span>
+              </h1>
+            </motion.div>
+
+            {/* Typed role */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.35 }}
+              className="flex items-center gap-2 h-8"
+            >
+              <span className="text-primary font-mono text-lg font-medium">$</span>
+              <span className="font-mono text-lg text-foreground/85 font-medium">{typed}</span>
+              <span className="w-0.5 h-5 bg-primary cursor-blink rounded-sm" />
+            </motion.div>
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.45 }}
+              className="text-muted-foreground leading-relaxed text-base md:text-lg max-w-xl"
+            >
+              Building production-grade computer vision systems — from custom YOLO inference 
+              pipelines and multimodal search to 3D scene reconstruction. I close the gap 
+              between research and deployment.
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.55 }}
+              className="flex flex-wrap gap-3"
+            >
+              <a href="#projects" onClick={e => { e.preventDefault(); document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); }} className="btn-primary">
+                View Projects
+                <span className="ml-1 opacity-70">→</span>
+              </a>
+              <a
+                href={`${import.meta.env.BASE_URL ?? '/'}sherif-abdelrady-cv.pdf`}
+                download
+                className="btn-outline"
+              >
+                <Download className="w-4 h-4" />
+                Download CV
+              </a>
+            </motion.div>
+
+            {/* Social Links */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.65 }}
+              className="flex items-center gap-4 pt-2"
+            >
+              {[
+                { icon: Github,   href: 'https://github.com/sherifabdelrady',        label: 'GitHub'   },
+                { icon: Linkedin, href: 'https://linkedin.com/in/sherif-abd-el-rady', label: 'LinkedIn' },
+                { icon: Mail,     href: 'mailto:sherifabdelrady@gmail.com',           label: 'Email'    },
+              ].map(({ icon: Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-border bg-secondary/50 text-muted-foreground hover:text-primary hover:border-primary/40 hover:bg-primary/8 hover:shadow-[0_0_16px_hsl(217_91%_60%/0.2)] transition-all duration-200"
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+              <div className="h-px w-8 bg-border" />
+              <span className="font-mono text-xs text-muted-foreground">Cairo, Egypt · Remote ✓</span>
+            </motion.div>
           </div>
 
-          {/* Code preview — below photo */}
-          <div className="animate-float w-full">
-            <CodePreview />
+          {/* RIGHT — Terminal + Stats */}
+          <div className="flex flex-col gap-6 order-1 lg:order-2">
+
+            {/* Photo or Terminal Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 40, scale: 0.96 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
+              className="relative"
+            >
+              {/* Glowing backdrop */}
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-blue-500/10 via-violet-500/8 to-emerald-500/6 blur-2xl" />
+
+              <div className="terminal relative neon-border">
+                <div className="terminal-header">
+                  <div className="terminal-dot" style={{ background: '#FF5F57' }} />
+                  <div className="terminal-dot" style={{ background: '#FEBC2E' }} />
+                  <div className="terminal-dot" style={{ background: '#28C840' }} />
+                  <span className="ml-2 font-mono text-xs text-muted-foreground">sherif@cv-engineer ~ </span>
+                  <Terminal className="w-3 h-3 ml-auto text-muted-foreground/50" />
+                </div>
+                <div className="terminal-body space-y-1 p-5">
+                  <div><span className="cmd">cat</span> <span className="arg">profile.json</span></div>
+                  <div className="text-muted-foreground/40">{'{'}</div>
+                  <div className="pl-4"><span className="text-blue-400">"name"</span>: <span className="arg">"Sherif Abd El-Rady"</span>,</div>
+                  <div className="pl-4"><span className="text-blue-400">"role"</span>: <span className="arg">"Computer Vision Engineer"</span>,</div>
+                  <div className="pl-4"><span className="text-blue-400">"location"</span>: <span className="arg">"Cairo, Egypt"</span>,</div>
+                  <div className="pl-4"><span className="text-blue-400">"focus"</span>: [</div>
+                  <div className="pl-8"><span className="arg">"Object Detection"</span>,</div>
+                  <div className="pl-8"><span className="arg">"Multimodal AI"</span>,</div>
+                  <div className="pl-8"><span className="arg">"Production Deployment"</span></div>
+                  <div className="pl-4">],</div>
+                  <div className="pl-4"><span className="text-blue-400">"open_to_work"</span>: <span className="text-emerald-400">true</span></div>
+                  <div className="text-muted-foreground/40">{'}'}</div>
+                  <div className="mt-3 flex items-center gap-1">
+                    <span className="cmd">git log</span> <span className="arg">--oneline -3</span>
+                  </div>
+                  <div className="text-emerald-400/70 text-xs">a4f3b2c fix: YOLOv8 postprocess confidence extraction</div>
+                  <div className="text-emerald-400/70 text-xs">d91c5e8 feat: Arabic Unicode support in OCR vocab</div>
+                  <div className="text-emerald-400/70 text-xs">8b30f12 fix: FAISS empty-index crash guard</div>
+                  <div className="flex items-center gap-1 mt-2">
+                    <span className="text-primary">❯</span>
+                    <span className="w-0.5 h-3.5 bg-primary cursor-blink rounded-sm ml-0.5" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Stats row */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="glass rounded-2xl p-5"
+            >
+              <div className="grid grid-cols-4 gap-4 divide-x divide-border">
+                {STATS.map((s, i) => (
+                  <AnimatedStat key={s.label} {...s} delay={0.6 + i * 0.1} />
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Tech badges */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="flex flex-wrap gap-1.5"
+            >
+              {['PyTorch', 'CUDA', 'ONNX', 'FastAPI', 'OpenCV', 'Docker', 'FAISS', 'TensorRT'].map((t, i) => (
+                <motion.span
+                  key={t}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.85 + i * 0.04 }}
+                  className="tag tag-blue"
+                >
+                  {t}
+                </motion.span>
+              ))}
+            </motion.div>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
+      {/* Scroll cue */}
+      <motion.button
+        type="button"
+        onClick={scrollDown}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground z-10"
+        transition={{ delay: 1.2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-muted-foreground/50 hover:text-primary transition-colors cursor-pointer group"
+        aria-label="Scroll down"
       >
-        <span className="text-xs font-mono uppercase tracking-widest">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
-        >
-          <ChevronDown className="w-5 h-5" />
-        </motion.div>
-      </motion.div>
+        <span className="font-mono text-[10px] uppercase tracking-widest">scroll</span>
+        <ChevronDown className="w-4 h-4 animate-bounce" />
+      </motion.button>
     </section>
   );
 }
-
-
-
-

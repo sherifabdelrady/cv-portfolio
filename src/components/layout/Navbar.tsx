@@ -1,202 +1,219 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Code2, Sun, Moon, Search } from 'lucide-react';
-import { useTheme } from '@/lib/theme';
+import { Menu, X, Search, Github, Linkedin, Mail } from 'lucide-react';
 
 const NAV_LINKS = [
-  { name: 'About',        href: '#about',         id: 'about' },
-  { name: 'Experience',  href: '#experience',    id: 'experience' },
-  { name: 'Proof',       href: '#testimonials',  id: 'testimonials' },
-  { name: 'Impact',      href: '#metrics',       id: 'metrics' },
-  { name: 'Projects',    href: '#projects',      id: 'projects' },
-  { name: 'Case Studies',href: '#case-studies',  id: 'case-studies' },
-  { name: 'Services',    href: '#services',      id: 'services' },
-  { name: 'Pipeline',    href: '#pipeline',      id: 'pipeline' },
-  { name: 'Stack',       href: '#skills',        id: 'skills' },
-  { name: 'Contact',     href: '#contact',       id: 'contact' },
+  { label: 'About',      href: '#about'      },
+  { label: 'Experience', href: '#experience'  },
+  { label: 'Projects',   href: '#projects'    },
+  { label: 'Skills',     href: '#skills'      },
+  { label: 'Contact',    href: '#contact'     },
 ];
 
-interface NavbarProps {
-  onPaletteOpen: () => void;
+const SOCIAL = [
+  { icon: Github,   href: 'https://github.com/sherifabdelrady',        label: 'GitHub'   },
+  { icon: Linkedin, href: 'https://linkedin.com/in/sherif-abd-el-rady', label: 'LinkedIn' },
+  { icon: Mail,     href: 'mailto:sherifabdelrady@gmail.com',           label: 'Email'    },
+];
+
+function scrollTo(href: string) {
+  const el = document.querySelector(href);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
-export default function Navbar({ onPaletteOpen }: NavbarProps) {
-  const [isScrolled, setIsScrolled] = useState(false);
+export default function Navbar({ onPaletteOpen }: { onPaletteOpen?: () => void }) {
+  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
-  const { theme, toggle } = useTheme();
+  const [active, setActive] = useState('');
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+      // Track active section
+      const sections = NAV_LINKS.map(l => l.href.slice(1));
+      let current = '';
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 120) current = id;
+      }
+      setActive(current);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  useEffect(() => {
-    const sectionIds = ['hero', ...NAV_LINKS.map((l) => l.id)];
-    const observers: IntersectionObserver[] = [];
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
-        { rootMargin: '-35% 0px -60% 0px' }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-    return () => observers.forEach((o) => o.disconnect());
-  }, []);
-
-  const scrollTo = (href: string) => {
-    setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        isScrolled ? 'bg-background/90 backdrop-blur-md border-b border-border shadow-sm' : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <button
-          type="button"
-          className="flex items-center gap-2 cursor-pointer group"
-          onClick={() => scrollTo('#hero')}
-          aria-label="Back to top"
-        >
-          <div className="w-8 h-8 rounded-lg border border-primary/30 flex items-center justify-center bg-primary/8 group-hover:bg-primary/15 transition-colors">
-            <Code2 className="w-4 h-4 text-primary" />
-          </div>
-          <span className="font-mono font-bold text-lg tracking-tight text-foreground group-hover:text-primary transition-colors">
-            SA<span className="text-primary">_</span>
-          </span>
-          {/* Availability badge */}
-          <span className="hidden sm:flex items-center gap-1.5 ml-1 font-mono text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-            <span className="relative flex w-1.5 h-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
+    <>
+      <motion.header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled ? 'navbar-glass' : 'bg-transparent border-transparent'
+        }`}
+        initial={{ y: -80 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+      >
+        <div className="max-content flex items-center justify-between h-16">
+
+          {/* Logo */}
+          <a
+            href="#"
+            onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            className="group relative flex items-center gap-2.5 select-none"
+          >
+            <div className="relative w-9 h-9 rounded-xl border border-primary/30 bg-primary/8 flex items-center justify-center overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-violet-500/10" />
+              <span className="relative font-heading font-bold text-sm text-primary tracking-tight">SA</span>
+            </div>
+            <span className="hidden sm:block font-heading font-semibold text-sm text-foreground/80 group-hover:text-foreground transition-colors">
+              Sherif Abd El-Rady
             </span>
-            Available
-          </span>
-        </button>
+          </a>
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-0.5">
-          {NAV_LINKS.map((link) => (
-            <button
-              key={link.name}
-              type="button"
-              onClick={() => scrollTo(link.href)}
-              className={`px-2.5 py-2 text-[11px] font-mono transition-all rounded-md whitespace-nowrap ${
-                activeSection === link.id
-                  ? 'text-primary bg-primary/8'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
-              }`}
-            >
-              {link.name}
-            </button>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          {/* ⌘K palette trigger */}
-          <button
-            type="button"
-            onClick={onPaletteOpen}
-            aria-label="Open command palette"
-            className="hidden sm:flex items-center gap-2 h-9 px-3 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-primary/50 hover:bg-secondary transition-all font-mono text-[11px]"
-          >
-            <Search className="w-3.5 h-3.5" />
-            <span className="hidden md:inline">Search</span>
-            <kbd className="flex items-center gap-0.5 bg-secondary/80 border border-border rounded px-1.5 py-0.5 text-[10px] leading-none">
-              ⌘K
-            </kbd>
-          </button>
-
-          <button
-            type="button"
-            onClick={toggle}
-            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="w-9 h-9 flex items-center justify-center rounded-lg border border-border text-muted-foreground hover:text-foreground hover:border-primary/50 hover:bg-secondary transition-all"
-          >
-            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => scrollTo('#contact')}
-            className="hidden md:flex px-4 py-2 text-sm font-mono font-medium text-primary-foreground bg-primary border border-primary hover:bg-primary/90 transition-all shadow-[0_2px_12px_rgba(59,130,246,0.25)] rounded-lg"
-          >
-            Work With Me
-          </button>
-
-          <button
-            type="button"
-            className="lg:hidden text-foreground hover:text-primary transition-colors"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-nav"
-          >
-            {mobileOpen ? <X /> : <Menu />}
-          </button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.nav
-            id="mobile-nav"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden border-b border-border bg-background/95 backdrop-blur-md overflow-hidden"
-          >
-            <div className="flex flex-col p-6 gap-1">
-              {/* Mobile search */}
-              <button
-                type="button"
-                onClick={() => { setMobileOpen(false); onPaletteOpen(); }}
-                className="flex items-center gap-2 text-left text-sm font-mono py-2.5 px-3 rounded-md text-muted-foreground hover:text-primary hover:bg-secondary transition-colors mb-2 border border-border"
-              >
-                <Search className="w-3.5 h-3.5" />
-                <span>Search…</span>
-                <kbd className="ml-auto bg-secondary border border-border rounded px-1.5 py-0.5 text-[10px]">⌘K</kbd>
-              </button>
-
-              {NAV_LINKS.map((link) => (
-                <button
-                  key={link.name}
-                  type="button"
-                  onClick={() => scrollTo(link.href)}
-                  className={`text-left text-sm font-mono py-2.5 px-3 rounded-md transition-colors ${
-                    activeSection === link.id
-                      ? 'text-primary bg-primary/8'
-                      : 'text-muted-foreground hover:text-primary hover:bg-secondary'
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-1">
+            {NAV_LINKS.map(({ label, href }) => {
+              const id = href.slice(1);
+              const isActive = active === id;
+              return (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={e => { e.preventDefault(); scrollTo(href); }}
+                  className={`relative px-3.5 py-2 rounded-lg font-mono text-xs font-medium transition-all duration-200 ${
+                    isActive
+                      ? 'text-primary'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
-                  {link.name}
-                </button>
-              ))}
-              <div className="mt-4 pt-4 border-t border-border">
-                <button
-                  type="button"
-                  onClick={() => scrollTo('#contact')}
-                  className="w-full px-4 py-2.5 text-sm font-mono font-medium text-primary-foreground bg-primary rounded-lg"
-                >
-                  Work With Me
-                </button>
-              </div>
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-active"
+                      className="absolute inset-0 rounded-lg bg-primary/10 border border-primary/25"
+                      transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+                    />
+                  )}
+                  <span className="relative">{label}</span>
+                </a>
+              );
+            })}
+          </nav>
+
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center gap-2">
+            {/* Social icons */}
+            {SOCIAL.map(({ icon: Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/8 border border-transparent hover:border-primary/20 transition-all"
+              >
+                <Icon className="w-4 h-4" />
+              </a>
+            ))}
+
+            {/* ⌘K */}
+            {onPaletteOpen && (
+              <button
+                type="button"
+                onClick={onPaletteOpen}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-secondary/50 font-mono text-xs text-muted-foreground hover:text-foreground hover:border-primary/40 hover:bg-primary/5 transition-all"
+                aria-label="Open command palette"
+              >
+                <Search className="w-3 h-3" />
+                <span className="hidden lg:inline">Search</span>
+                <kbd className="hidden lg:inline ml-1 text-[10px] opacity-60">⌘K</kbd>
+              </button>
+            )}
+
+            <a
+              href={`${import.meta.env.BASE_URL ?? '/'}sherif-abdelrady-cv.pdf`}
+              download
+              className="btn-primary !py-2 !px-4 text-xs"
+            >
+              Resume ↓
+            </a>
+          </div>
+
+          {/* Mobile toggle */}
+          <button
+            type="button"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg border border-border bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors"
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+          >
+            {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </button>
+        </div>
+      </motion.header>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+            className="fixed inset-y-0 right-0 z-40 w-72 glass border-l border-border flex flex-col md:hidden"
+          >
+            <div className="h-16 border-b border-border flex items-center justify-between px-5">
+              <span className="font-heading font-bold text-sm">Menu</span>
+              <button
+                type="button"
+                onClick={() => setMobileOpen(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-lg border border-border text-muted-foreground hover:text-foreground"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
-          </motion.nav>
+
+            <nav className="flex flex-col gap-1 p-4 flex-1">
+              {NAV_LINKS.map(({ label, href }) => (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={e => { e.preventDefault(); scrollTo(href); setMobileOpen(false); }}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-mono text-sm text-muted-foreground hover:text-primary hover:bg-primary/8 transition-all"
+                >
+                  <span className="w-1 h-1 rounded-full bg-primary/40" />
+                  {label}
+                </a>
+              ))}
+            </nav>
+
+            <div className="p-4 border-t border-border flex items-center gap-2">
+              {SOCIAL.map(({ icon: Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex-1 flex items-center justify-center py-2.5 rounded-xl border border-border text-muted-foreground hover:text-primary hover:border-primary/30 transition-all"
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+
+      {/* Mobile backdrop */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-30 bg-background/60 backdrop-blur-sm md:hidden"
+            onClick={() => setMobileOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 }
